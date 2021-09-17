@@ -1,40 +1,42 @@
 # SipNChip
 
-# What this project uses
+## What this project uses
 
-This application consists of a website built using Django, a full stack web development framework for Python. As such, this project will follow the default organization standards of a Django project, and will follow the default naming and style conventions for Python, PEP-8. Other tools that are used in this project include HTML and JavaScript, which are used to build the webpages themselves. The setup for this project simply consists of a new Django project in an empty folder.
+This application consists of a website built using Django, a full stack web development framework for Python. Other tools that are used in this project include HTML and JavaScript, which are used to build the webpages themselves. The setup for this project simply consists of a Django project in a dedicated folder, `app`.
 
-# Version control procedures
+## Organization procedures
 
-This project uses Git for version control, and is hosted at https://github.com/bsponny/SipNChip.git. Individual features of the application will be worked on in their own branches, and merged to the MASTER branch after review by the development team.
+The Django project will be automatically set up in the `app` folder, and all application files will be organized according to Django's required structure. All other resources for the project can be found in the `docs` folder.
 
-# Buid instructions
+## Naming scheme
 
-The website can be launched by running `python manage.py runserver` from the command line in the Django project, then launching the website in a web browser from a device connected to the same network as the server.
+This project will follow the naming schemes required by Django, as well as adhereing to the style conventions of PEP-8.
 
-# Unit testing instructions
+## Version control procedures
 
-Unit tests will be written using Python's built-in `unittest` library. Any tests that require an external file will be placed in a dedicated folder for unit tests somewhere in the project.
+This project uses Git for version control, and is hosted at https://github.com/bsponny/SipNChip.git. Each member of the team will clone this repository to their personal computers and submit pull requests when making changes to the repository, which must be approved by the team. In addition, each feature of the app should have its own branch for development that members work on and merge into MASTER when complete.
 
-# System testing instructions
+## Build instructions
 
-The following procedure will be used for system testing:
-	1. Website is run from the Django server
-	2. One user logs into the website as a manager
-	3. Another three users create new player accounts from the public account creation page
-	4. Manager creates tournament which players then join
-	5. Players input scores to simulate playing the tournament
-	6. Players submit scores to the leaderboard and receive cash prizes
-	7. Manager switches one player account to bartender, and another player account to sponsor
-	8. All users add $1000 to their account
-	9. Manager creates another tournament
-	10. Sponsor offers to sponsor tournament
-	11. Player signs up for tournament
-	12. Player places a drink order using the application
-	13. Bartender marks the order as complete when received
-	14. Player inputs scores to finish tournament
-	15. Sponsor requests a tournament using the request form
-	16. Player signs up for tournament
-	17. Player places a drink order, then cancels it
-	18. Player inputs scores to finish tournament
-	19. All users log off, server is shut down
+Clone the project from GitHub to your local repository.  
+`bash $ git clone https://github.com/bsponny/SipNChip.git <your-repository>`  
+
+Create a virtual environment in Bash, then begin setting up the Django server.  
+`bash $ virtualenv --no-site-packages`  
+`bash $ python manage.py migrate` 
+
+Create an admin account for system testing purposes, then migrate again.  
+`bash $ python manage.py createsuperuser` 
+`bash $ python manage.py makemigrations SipNChip`  
+`bash $ python manage.py migrate`  
+
+Run the server, then launch the app from localhost:8000 in your web browser.  
+`bash $ python manage.py runserver`  
+
+## Unit testing instructions
+
+Unit tests will be written using Python's built-in `unittest` library. A file called `unittests.py`, which contains all necessary unit tests for this project, can be found in the `app` folder.
+
+## System testing instructions
+
+Once the server has been launched, log into the app with username: owner and password: hunter2. This account should have all permissions, allowing for complete system testing.
