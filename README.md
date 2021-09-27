@@ -6,7 +6,7 @@ This application consists of a website built using Django, a full stack web deve
 
 ## Organization procedures
 
-The Django project will be automatically set up in the `app` folder, and all application files will be organized according to Django's required structure. All other resources for the project can be found in the `docs` folder.
+The Django project will be automatically set up in the `SipNChip` folder, and all application files will be organized according to Django's required structure. All other resources for the project can be found in the `docs` folder.
 
 ## Naming scheme
 
@@ -35,7 +35,7 @@ Run the server, then launch the app from localhost:8000 in your web browser.
 
 ## Unit testing instructions
 
-Unit tests will be written using Python's built-in `unittest` library. A file called `unittests.py`, which contains all necessary unit tests for this project, can be found in the `app` folder.
+Unit tests will be written using Python's built-in `unittest` library. A file called `unittests.py`, which contains all necessary unit tests for this project, can be found in the `SipNChip` folder.
 
 ## System testing instructions
 
