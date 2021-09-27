@@ -2,7 +2,7 @@
 
 ## What this project uses
 
-This application consists of a website built using Django, a full stack web development framework for Python. Other tools that are used in this project include HTML and JavaScript, which are used to build the webpages themselves. The setup for this project simply consists of a Django project in a dedicated folder, `app`.
+This application consists of a website built using Django, a full stack web development framework for Python. Other tools that are used in this project include HTML and JavaScript, which are used to build the webpages themselves. The setup for this project simply consists of a Django project in a dedicated folder, `SipNChip`.
 
 ## Organization procedures
 
