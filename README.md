@@ -21,14 +21,11 @@ This project uses Git for version control, and is hosted at https://github.com/b
 Clone the project from GitHub to your local repository.  
 `bash $ git clone https://github.com/bsponny/SipNChip.git <your-repository>`  
 
-Create a virtual environment in Bash, then begin setting up the Django server.  
-`bash $ virtualenv --no-site-packages`  
-`bash $ python manage.py migrate` 
 
-Create an admin account for system testing purposes, then migrate again.  
-`bash $ python manage.py createsuperuser` 
-`bash $ python manage.py makemigrations SipNChip`  
-`bash $ python manage.py migrate`  
+Apply all migrations to the project, then create a superuser. 
+`bash $ python manage.py migrate`
+`bash $ python manage.py createsuperuser`  
+  
 
 Run the server, then launch the app from localhost:8000 in your web browser.  
 `bash $ python manage.py runserver`  
@@ -39,4 +36,4 @@ Unit tests will be written using Python's built-in `unittest` library. A file ca
 
 ## System testing instructions
 
-Once the server has been launched, log into the app with username: owner and password: hunter2. This account should have all permissions, allowing for complete system testing.
+The superuser account that you made when building the project should allow you full access to the database and its contents, which you can use to verify that the website functions properly.
