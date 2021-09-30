@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Home Page</title>
+    </head>
+    <body>
+        <h1>Welcome to the home page</h1>
+        <div>
+            <p>Hello, {{request.user}}</p>
+            <a href="{% url 'SipNChipApp:logout' %}">Logout</a>
+        </div>
+    </body>
+</html>

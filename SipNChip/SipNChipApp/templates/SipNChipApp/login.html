@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Account Login</title>
+    </head>
+    <body>
+        <div>
+            <form method='POST' action=''>
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username...">
+                <p></p>
+                <input type="password" name="password" placeholder="Password...">
+                <p></p>
+                <input type="submit" name="Login User" value="Submit">
+            </form>
+        </div>
+        <div>
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+
+        </div>
+        <div>
+            <p>Don't have an account? &nbsp;<a href="{% url 'SipNChipApp:register' %}">Sign Up</a></p>
+        </div>
+    </body>
+</html>

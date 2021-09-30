@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Account Registration</title>
+    </head>
+    <body>
+        <div>
+            <form method='POST' action=''>
+                {% csrf_token %}
+                <p></p>
+                {{form.username.label}}
+                {{form.username}}
+                <p>
+                    <ul>
+                        <li>Your username must be 150 characters or fewer.</li>
+                        <li>Your username must be letters, digits, and @/./+//-/_ only</li>
+                    </ul>
+                </p>
+                {{form.password1.label}}
+                {{form.password1}}
+                <p>
+                    <ul>
+                        <li>Your password can't be too similar to your other personal information.</li>
+                        <li>Your password must contain at least 8 characters</li>
+                        <li>Your password can't be a commonly used password</li>
+                        <li>Your password can't be entirely numeric</li>
+                    </ul>
+                </p>
+                {{form.password2.label}}
+                {{form.password2}}
+                <p></p>
+                <input type="submit" name="Create User" value="Submit">
+            </form>
+        </div>
+        <div>
+            {{form.errors}}
+        </div>
+        <div>
+            <p>Already have an account? &nbsp;<a href="{% url 'SipNChipApp:login' %}">Login</a></p>
+        </div>
+    </body>
+</html>
