@@ -14,15 +14,17 @@ This project will follow the naming schemes required by Django, as well as adher
 
 ## Version control procedures
 
-This project uses Git for version control, and is hosted at https://github.com/bsponny/SipNChip.git. Each member of the team will clone this repository to their personal computers and submit pull requests when making changes to the repository, which must be approved by the team. In addition, each feature of the app should have its own branch for development that members work on and merge into MASTER when complete.
+This project uses Git for version control, and is hosted at https://github.com/bsponny/SipNChip.git. Each member of the team will clone this repository to their personal computers. During the development phase of this project, each member will submit pull requests when making changes to the repository, which must be approved by the team. In addition, each feature of the app should have its own branch for development that members work on and merge into MASTER when complete.
 
 ## Build instructions
 
 Clone the project from GitHub to your local repository.  
-`bash $ git clone https://github.com/bsponny/SipNChip.git <your-repository>`  
+`bash $ git clone https://github.com/bsponny/SipNChip.git <your-repository>` 
 
+Open a command line such as Bash, then navigate to the `SipNChip` directory.  
+`bash $ cd <your-repository>/SipNChip
 
-Apply all migrations to the project, then create a superuser. 
+Apply all migrations to the project, then create a superuser.  
 `bash $ python manage.py migrate`
 `bash $ python manage.py createsuperuser`  
   
@@ -32,8 +34,8 @@ Run the server, then launch the app from localhost:8000 in your web browser.
 
 ## Unit testing instructions
 
-Unit tests will be written using Python's built-in `unittest` library. A file called `unittests.py`, which contains all necessary unit tests for this project, can be found in the `SipNChip` folder.
+Unit tests will be written using Python's built-in `unittest` library. A file called `unittests.py`, which contains all necessary unit tests for this project, can be found in the `SipNChipApp` folder of the project.
 
 ## System testing instructions
 
-The superuser account that you made when building the project should allow you full access to the database and its contents, which you can use to verify that the website functions properly.
+The superuser account that you made when building the project should allow you full administrator access to the database and its contents, which you can use to verify that the website functions properly.
