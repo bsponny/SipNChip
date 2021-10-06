@@ -2,7 +2,11 @@
 
 ## What this project uses
 
-This application consists of a website built using Django, a full stack web development framework for Python. Other tools that are used in this project include HTML and JavaScript, which are used to build the webpages themselves. The setup for this project simply consists of a Django project in a dedicated folder, `SipNChip`.
+This application consists of a website built using Django, a full stack web development framework for Python. Other tools that are used in this project include HTML and (possibly) JavaScript, which are used to build the webpages themselves. The setup for this project simply consists of a Django project in a dedicated folder, `SipNChip`.
+
+## Tool stack and setup
+
+The tool stack, as previously mentioned, is Django (Python), HTML, and JavaScript. To set up for this project, each team member has downloaded Python on their computer and installed the Django package using Pip: `bash $ python -m pip install Django`. Each team member must also have a text editor capable of editing Python, HTML, and JavaScript files.
 
 ## Organization procedures
 
