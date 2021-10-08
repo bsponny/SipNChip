@@ -2,6 +2,9 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from .models import Account
+from decimal import Decimal
 
 from django.contrib.auth.decorators import login_required
 
@@ -18,8 +21,11 @@ def registerPage(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user)
+            username = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + username)
+            user = User.objects.get(username=username)
+            account = user.account
+            messages.success(request, 'Current account balance is $' + str(account.balance))
             return redirect('SipNChipApp:login')
 
     context = {'form': form}
