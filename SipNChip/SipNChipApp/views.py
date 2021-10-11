@@ -1,5 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
+
+from SipNChipApp.decorators import unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -12,9 +14,8 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     return render(request, 'SipNChipApp/home.html', {})
 
+@unauthenticated_user
 def registerPage(request):
-    if request.user.is_authenticated:
-        return redirect('SipNChipApp:home')
     form = CreateUserForm()
 
     if request.method == 'POST':
@@ -31,9 +32,8 @@ def registerPage(request):
     context = {'form': form}
     return render(request, 'SipNChipApp/register.html', context)
 
+@unauthenticated_user
 def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('SipNChipApp:home')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -47,6 +47,7 @@ def loginPage(request):
 
     return render(request, 'SipNChipApp/login.html', {})
 
+@login_required(login_url='SipNChipApp:login')
 def logoutUser(request):
     logout(request)
     return redirect('SipNChipApp:login')
