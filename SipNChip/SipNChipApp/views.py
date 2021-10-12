@@ -25,7 +25,18 @@ def registerPage(request):
             messages.success(request, 'Account was created for ' + username)
             user = User.objects.get(username=username)
             account = user.account
+            userType = user.userType
             messages.success(request, 'Current account balance is $' + str(account.balance))
+            userTypeName = ""
+            if userType == 1:
+                userTypeName = "Player"
+            elif userType == 2:
+                userTypeName = "Sponsor"
+            elif userType == 3:
+                userTypeName = "Bartender"
+            else:
+                userTypeName = "Manager"
+            messages.success(request, "Current user type is a " + userTypeName)
             return redirect('SipNChipApp:login')
 
     context = {'form': form}
