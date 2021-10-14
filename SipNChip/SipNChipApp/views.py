@@ -26,7 +26,7 @@ def registerPage(request):
             messages.success(request, 'Account was created for ' + username)
             user = User.objects.get(username=username)
             account = user.account
-            userType = user.userType
+            userType = account.userType
             messages.success(request, 'Current account balance is $' + str(account.balance))
             userTypeName = ""
             if userType == 1:
