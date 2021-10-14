@@ -25,3 +25,11 @@ def save_account(sender, instance, **kwargs):
 
 def __str__(self):
         return self.user
+
+class Tournament(models.Model):
+    dayOfTournament = models.DateTimeField()
+    playersRegistered = models.ManyToManyField(User, related_name="players")
+    sponsoredBy = models.ManyToManyField(User, related_name="sponsors")
+
+class SponsorRequest(models.Model):
+    tournament = models.OneToOneField(Tournament, on_delete=models.CASCADE)
