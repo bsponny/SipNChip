@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 
-from SipNChipApp.decorators import unauthenticated_user
+from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -12,7 +12,20 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='SipNChipApp:login')
 def home(request):
-    return render(request, 'SipNChipApp/home.html', {})
+    if request.user.account.userType == 1:
+        userType = 'player'
+    elif request.user.account.userType == 2:
+        userType = 'sponsor'
+    elif request.user.account.userType == 3:
+        userType = 'bartender'
+    elif request.user.account.userType == 4:
+        userType = 'manager'
+    context = {
+        'userType': userType,
+        'balance': request.user.account.balance,
+        'username': request.user,
+    }
+    return render(request, 'SipNChipApp/home.html', context)
 
 @unauthenticated_user
 def registerPage(request):
