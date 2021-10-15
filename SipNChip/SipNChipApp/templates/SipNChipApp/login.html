@@ -1,13 +1,20 @@
-
+{% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8"/>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
         <title>Account Login</title>
     </head>
     <body>
-        <div>
-            <form method='POST' action=''>
+        <div class="container">
+            <div class="row">
+                <h1>Login</h1>
+            </div>
+            <form method='POST' action='' class="form uniForm">
                 {% csrf_token %}
                 <input type="text" name="username" placeholder="Username...">
                 <p></p>
@@ -15,15 +22,15 @@
                 <p></p>
                 <input type="submit" name="Login User" value="Submit">
             </form>
-        </div>
-        <div>
-            {% for message in messages %}
-                <p>{{message}}</p>
-            {% endfor %}
+            <div class="text-danger">
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
 
-        </div>
-        <div>
-            <p>Don't have an account? &nbsp;<a href="{% url 'SipNChipApp:register' %}">Sign Up</a></p>
+            </div>
+            <div>
+                <p>Don't have an account? &nbsp;<a href="{% url 'SipNChipApp:register' %}">Sign Up</a></p>
+            </div>
         </div>
     </body>
 </html>
