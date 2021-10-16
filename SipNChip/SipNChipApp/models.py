@@ -33,3 +33,13 @@ class Tournament(models.Model):
 
 class SponsorRequest(models.Model):
     tournament = models.OneToOneField(Tournament, on_delete=models.CASCADE)
+
+class Drink(models.Model):
+    name = models.CharField(max_length=30)
+    description = models.CharField(max_length=250)
+    price = models.DecimalField(max_digits=4, decimal_places=2)
+
+class DrinkOrder(models.Model):
+    drinks = models.ManyToManyField(Drink)
+    orderedBy = models.OneToOneField(User, on_delete=models.CASCADE)
+    totalPrice = models.DecimalField(max_digits=5, decimal_places=2)

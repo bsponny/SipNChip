@@ -35,12 +35,16 @@ def registerPage(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+
             username = form.cleaned_data.get('username')
             messages.success(request, 'Account was created for ' + username)
+
             user = User.objects.get(username=username)
-            account = user.account
-            userType = account.userType
-            messages.success(request, 'Current account balance is $' + str(account.balance))
+
+            balance = user.account.balance
+            messages.success(request, 'Current account balance is $' + str(balance))
+
+            userType = user.account.userType
             userTypeName = ""
             if userType == 1:
                 userTypeName = "Player"
@@ -51,6 +55,7 @@ def registerPage(request):
             else:
                 userTypeName = "Manager"
             messages.success(request, "Current user type is a " + userTypeName)
+
             return redirect('SipNChipApp:login')
 
     context = {'form': form}
