@@ -7,33 +7,34 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
         <title>SipNChip | Login</title>
     </head>
     <body>
         <div class="container">
-            <div class="row">
-                <h1>&nbspLogin</h1>
+            <div class="row header-row">
+                <div class="col-xs-12 header-col">
+                    <h1>&nbspLogin</h1>
+                </div>
             </div>
             <form method='POST' action='' class="form uniForm">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label class="form-label">Username*</label>
-                    <input type="text" name="username" placeholder="Username..." class="form-control" autofocus/>
+                    <input type="text" name="username" placeholder="Username..." class="form-control login-input" autofocus/>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Password*</label>
-                    <input type="password" name="password" placeholder="Password..." class="form-control"/>
+                    <input type="password" name="password" placeholder="Password..." class="form-control login-input"/>
                 </div>
                 <div class="form-group">
-                    <input type="submit" name="Login User" value="Submit" class="btn btn-primary">
+                    <button class="btn btn-primary" type="submit">Submit</button>
                 </div>
                 <div class="text-danger">
                     {% for message in messages %}
-                        <p>{{message}}</p>
+                        <p class="text-danger">{{message}}</p>
                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    <p>Don't have an account? &nbsp;<a href="{% url 'SipNChipApp:register' %}">Sign Up</a></p>
+                    <p>Don't have an account? &nbsp;<a href="{% url 'SipNChipApp:register' %}" class="link">Sign Up</a></p>
                 </div>
             </form>
         </div>

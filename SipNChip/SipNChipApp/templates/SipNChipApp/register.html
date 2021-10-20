@@ -7,12 +7,15 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
         <title>SipNChip | Register</title>
     </head>
     <body>
         <div class="container">
-            <div class="row">
-                <h1>&nbspRegister</h1>
+            <div class="row header-row">
+                <div class="col-xs-12 header-col">
+                    <h1>&nbspRegister</h1>
+                </div>
             </div>
             <form method='POST' action='' class="form uniForm">
                 {% csrf_token %}
