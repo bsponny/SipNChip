@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>User Type Assignment</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'SipNChipApp/style.css' %}"/>
+    </head>
+    <body>
+        <h1>User Types</h1>
+        <div>
+		<table>
+			<tr>
+				<th>Username</th>
+				<th>User Type</th>
+			</tr>
+			{% for account in accounts %}
+				<tr>
+					<td>{{account.user}}</td>
+					<td>
+						<form method='POST' action=''>
+							<select id={{account.user}} name=userType>
+								<option value=1 {%if account.userType == 1 %} selected='selected' {% endif %}>Player</option>
+								<option value=2 {%if account.userType == 2 %} selected='selected' {% endif %}>Sponsor</option>
+								<option value=3 {%if account.userType == 3 %} selected='selected' {% endif %}>Bartender</option>
+								<option value=4 {%if account.userType == 4 %} selected='selected' {% endif %}>Manager</option>
+							</select>
+							<input type="submit" name="setUserType" value="Set Type">
+						</form>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+        </div>
+    </body>
+</html>

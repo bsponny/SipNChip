@@ -12,19 +12,18 @@ class Account(models.Model):
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     userType = models.IntegerField(default=1) #1 = Player, 2 = Sponsor, 3 = Bartender, 4 = Manager
 
+    @receiver(post_save, sender=User)
+    def create_account(sender, instance, created, **kwargs):
+        if created:
+            Account.objects.create(user=instance, balance=0.00, userType=1)
 
-@receiver(post_save, sender=User)
-def create_account(sender, instance, created, **kwargs):
-    if created:
-        Account.objects.create(user=instance, balance=0.00, userType=1)
 
+    @receiver(post_save, sender=User)
+    def save_account(sender, instance, **kwargs):
+        instance.account.save()
 
-@receiver(post_save, sender=User)
-def save_account(sender, instance, **kwargs):
-    instance.account.save()
-
-def __str__(self):
-        return self.user
+    def __str__(self):
+        return str(self.user.username) + " has $" + str(self.balance) + " userType: " + str(self.userType)
 
 class Tournament(models.Model):
     dayOfTournament = models.DateTimeField()
