@@ -1,0 +1,22 @@
+**Sprint 1:
+
+Members present: Leo (scrum master), Gavin, Andrew
+
+What went well: Communication between team members, researching Django for future tasks
+
+What didn't go well: Planning around team member absences, getting work done quickly, having work to do
+
+What we can do to improve: Planning around team member schedules, hard deadlines
+
+Measurement criteria: Story points, number of issues in GitHub tracker
+
+Final percent of work done:
+
+Leo: 25%
+Brock: 25%
+Gavin: 25%
+Andrew: 25%
+
+**Sprint 2:
+
+**Sprint 3:

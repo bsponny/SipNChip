@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Tournament Creation</title>
+    </head>
+    <body>
+        <h2>Create a Tournament:</h2>
+
+        <form method='POST'>
+            {% csrf_token %}
+            <label for="dayOfTournament">Day of Tournament:</label>
+            <input type="date" name="dayOfTournament">
+            <p></p>
+            <button type="submit"><h4>SUBMIT</h4></button>
+        </form>
+
+        <p>{{message}}</p>
+    </body>
+</html>

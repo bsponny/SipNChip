@@ -10,12 +10,12 @@
         <title>Home Page</title>
     </head>
     <body>
-        <div class="container">
-            <h1>Welcome to the home page</h1>
-            <div>
-                <p>Hello, {{request.user}}</p>
-                <a href="{% url 'SipNChipApp:logout' %}">Logout</a>
-            </div>
+        <h1>Welcome to the home page</h1>
+        <div>
+            <p>Hello, {{username}}</p>
+	        <p>Your account balance is ${{balance}}</p>
+	        <p>Your user type is {{userType}}</p>
+            <a href="{% url 'SipNChipApp:logout' %}">Logout</a>
         </div>
     </body>
 </html>
