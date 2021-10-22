@@ -5,8 +5,7 @@ from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Account
-from decimal import Decimal
+from .models import Tournament
 
 from django.contrib.auth.decorators import login_required
 
@@ -80,3 +79,15 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('SipNChipApp:login')
+
+@login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[4])
+def tournamentCreation(request):
+    message = ""
+    if request.method == 'POST':
+        tournament = Tournament()
+        tournament.dayOfTournament = request.POST['dayOfTournament']
+        tournament.save()
+        message = "Tournament was created for " + request.POST['dayOfTournament']
+
+    return render(request, 'SipNChipApp/tournament-creation.html', {'message': message})

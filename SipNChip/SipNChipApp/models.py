@@ -27,9 +27,11 @@ def __str__(self):
         return self.user
 
 class Tournament(models.Model):
-    dayOfTournament = models.DateTimeField()
-    playersRegistered = models.ManyToManyField(User, related_name="players")
-    sponsoredBy = models.ManyToManyField(User, related_name="sponsors")
+    dayOfTournament = models.DateField()
+    playersRegistered = models.ManyToManyField(User, related_name="players", blank=True)
+    sponsoredBy = models.ManyToManyField(User, related_name="sponsors", blank=True)
+    def __str__(self):
+        return str(self.dayOfTournament)
 
 class SponsorRequest(models.Model):
     tournament = models.OneToOneField(Tournament, on_delete=models.CASCADE)
