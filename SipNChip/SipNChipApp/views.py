@@ -1,11 +1,13 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import Tournament
+
 
 from django.contrib.auth.decorators import login_required
 
@@ -25,6 +27,7 @@ def home(request):
         'username': request.user,
     }
     return render(request, 'SipNChipApp/home.html', context)
+
 
 @unauthenticated_user
 def registerPage(request):
@@ -91,3 +94,18 @@ def tournamentCreation(request):
         message = "Tournament was created for " + request.POST['dayOfTournament']
 
     return render(request, 'SipNChipApp/tournament-creation.html', {'message': message})
+
+@login_required(login_url='SipNChipApp:login')
+def tournaments(request):
+    tournament_list = Tournament.objects.all()
+    context = {'tournament_list': tournament_list}
+    return render(request, 'SipNChipApp/tournaments.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def signup(request):
+    id = request.POST.get('id')
+    tournament = get_object_or_404(Tournament, pk=id)
+    tournament.playersRegistered.add(request.user)
+    tournament.save()
+    messages.success(request, f"Successfully signed up for tournament on {tournament.dayOfTournament}")
+    return HttpResponseRedirect('/tournaments')
