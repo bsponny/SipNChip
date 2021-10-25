@@ -6,7 +6,7 @@ from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Tournament
+from .models import Tournament, SponsorRequest
 
 
 from django.contrib.auth.decorators import login_required
@@ -109,3 +109,12 @@ def signup(request):
     tournament.save()
     messages.success(request, f"Successfully signed up for tournament on {tournament.dayOfTournament}")
     return HttpResponseRedirect('/tournaments')
+
+@login_required(login_url='SipNChipApp:login')
+def requestTournament(request):
+    if request.method == "POST":
+        dayOfTournament = request.POST.get("date")
+        sponsorRequest = SponsorRequest(sponsor=request.user, dayOfTournament=dayOfTournament)
+        sponsorRequest.save()
+        messages.success(request, f"Successfully submitted request for tournament on {dayOfTournament}")
+    return render(request, 'SipNChipApp/request-tournament.html', {})

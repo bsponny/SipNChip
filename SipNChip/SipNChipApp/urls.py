@@ -9,6 +9,7 @@ urlpatterns = [
     path('tournament-creation/', views.tournamentCreation, name='tournament-creation'),
     path('tournaments/', views.tournaments, name='tournaments'),
     path('signup/', views.signup, name='signup'),
+    path('request-tournament/', views.requestTournament, name='request-tournament')
 ]
 
 app_name='SipNChipApp'
