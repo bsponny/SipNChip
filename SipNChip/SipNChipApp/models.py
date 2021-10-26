@@ -17,7 +17,6 @@ class Account(models.Model):
         if created:
             Account.objects.create(user=instance, balance=0.00, userType=1)
 
-
     @receiver(post_save, sender=User)
     def save_account(sender, instance, **kwargs):
         instance.account.save()

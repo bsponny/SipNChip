@@ -18,7 +18,8 @@
 				<tr>
 					<td>{{account.user}}</td>
 					<td>
-						<form method='POST' action=''>
+						<form method='POST' action='{% url 'SipNChipApp:userType' %}'>
+							{% csrf_token %}
 							<select id={{account.user}} name=userType>
 								<option value=1 {%if account.userType == 1 %} selected='selected' {% endif %}>Player</option>
 								<option value=2 {%if account.userType == 2 %} selected='selected' {% endif %}>Sponsor</option>
