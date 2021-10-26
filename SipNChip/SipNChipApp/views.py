@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
 
 from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
@@ -11,31 +11,22 @@ from decimal import Decimal
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='SipNChipApp:login')
-def setUserType(request, username, userType):
-    try:
-        account = Account.objects.get(user=username)
-        account.userType = userType
-        account.save()
-    except (KeyError, Account.DoesNotExist):
-        return render(request, 'SipNChipApp/userType.html',
-                {
-                    'error_message': "You didn't change anything",
-                })
-    else:
-        account.save()
-
-    context = {
-            'account': account,
-            }
-    return HttpResponseRedirect(reverse('SipNChipApp:userType'))
-
-@login_required(login_url='SipNChipApp:login')
 def userType(request):
     accounts = Account.objects.order_by('user')
     context = {
             'accounts': accounts,
             }
     return render(request, 'SipNChipApp/userType.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def setUserType(request):
+    username = request.POST.get('username')
+    userType = request.POST.get('userType')
+    user = get_object_or_404(User, username=username)
+    account = get_object_or_404(Account, user=user)
+    account.userType = userType
+    account.save()
+    return HttpResponseRedirect(reverse('SipNChipApp:userType'))
 
 @login_required(login_url='SipNChipApp:login')
 def home(request):

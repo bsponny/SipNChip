@@ -22,7 +22,7 @@ class Account(models.Model):
         instance.account.save()
 
     def __str__(self):
-        return str(self.user.username) + " has $" + str(self.balance) + " userType: " + str(self.userType)
+        return str(self.user.username) + " has $" + str(self.balance) + " userType: " + str(self.userType) + " id: " + str(self.id)
 
 class Tournament(models.Model):
     dayOfTournament = models.DateTimeField()

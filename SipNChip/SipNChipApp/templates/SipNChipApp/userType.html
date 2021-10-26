@@ -16,10 +16,10 @@
 			</tr>
 			{% for account in accounts %}
 				<tr>
-					<td>{{account.user}}</td>
-					<td>
-						<form method='POST' action='{% url 'SipNChipApp:userType' %}'>
-							{% csrf_token %}
+					<form method='POST' action='{% url 'SipNChipApp:setUserType' %}'>
+					{% csrf_token %}
+						<td>{{account.user}}</td>
+						<td>
 							<select id={{account.user}} name=userType>
 								<option value=1 {%if account.userType == 1 %} selected='selected' {% endif %}>Player</option>
 								<option value=2 {%if account.userType == 2 %} selected='selected' {% endif %}>Sponsor</option>
@@ -27,8 +27,9 @@
 								<option value=4 {%if account.userType == 4 %} selected='selected' {% endif %}>Manager</option>
 							</select>
 							<input type="submit" name="setUserType" value="Set Type">
-						</form>
-					</td>
+							<input type="hidden" name="username" value={{account.user}}>
+						</td>
+					</form>
 				</tr>
 			{% endfor %}
 		</table>
