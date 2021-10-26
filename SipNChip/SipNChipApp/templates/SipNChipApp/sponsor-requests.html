@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Sponsor Requests</title>
+    </head>
+    <body>
+        <h1>Sponsor Requests:</h1>
+        {% for request in requests %}
+            <form method='POST'>
+                {% csrf_token %}
+                <p>Request by {{request.sponsor}} for tournament on {{request.dayOfTournament}}</p>
+                <input type="submit" value="deny" name="status">
+                <input type="submit" value="approve" name="status">
+                <input type="hidden" name="id" value="{{ request.id }}">
+            </form>
+        {% endfor %}
+        <br>
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </body>
+</html>

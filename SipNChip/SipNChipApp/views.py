@@ -87,6 +87,7 @@ def logoutUser(request):
 # @allowed_user_types(allowed_types=[4])
 def tournamentCreation(request):
     message = ""
+    
     if request.method == 'POST':
         tournament = Tournament()
         tournament.dayOfTournament = request.POST['dayOfTournament']
@@ -118,3 +119,29 @@ def requestTournament(request):
         sponsorRequest.save()
         messages.success(request, f"Successfully submitted request for tournament on {dayOfTournament}")
     return render(request, 'SipNChipApp/request-tournament.html', {})
+
+@login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[4])
+def sponsorRequests(request):
+    messages = []
+
+    if request.method == 'POST':
+        sponsorRequest = get_object_or_404(SponsorRequest, pk=request.POST.get('id'))
+        status = request.POST.get('status')
+        if (status == 'approve'):
+            tournament = Tournament()
+            tournament.dayOfTournament = sponsorRequest.dayOfTournament
+            tournament.save()
+            tournament.sponsoredBy.add(sponsorRequest.sponsor)
+            tournament.save()
+            messages.append(f"Request was approved and a tournament was created for {tournament}")
+        else:
+            messages.append(f"Request was denied for a tournament on {sponsorRequest.dayOfTournament}")
+        sponsorRequest.delete()
+
+    requests = SponsorRequest.objects.all()
+    if requests.count() == 0:
+        messages.append("There are currently no sponsor requests")
+
+    context = {'requests': requests, 'messages': messages}
+    return render(request, 'SipNChipApp/sponsor-requests.html', context)
