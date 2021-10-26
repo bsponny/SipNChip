@@ -12,6 +12,24 @@ from .models import Tournament, SponsorRequest
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='SipNChipApp:login')
+def userType(request):
+    accounts = Account.objects.order_by('user')
+    context = {
+            'accounts': accounts,
+            }
+    return render(request, 'SipNChipApp/userType.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def setUserType(request):
+    username = request.POST.get('username')
+    userType = request.POST.get('userType')
+    user = get_object_or_404(User, username=username)
+    account = get_object_or_404(Account, user=user)
+    account.userType = userType
+    account.save()
+    return HttpResponseRedirect('/userType')
+
+@login_required(login_url='SipNChipApp:login')
 def home(request):
     if request.user.account.userType == 1:
         userType = 'player'
