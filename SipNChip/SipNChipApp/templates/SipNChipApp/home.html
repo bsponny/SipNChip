@@ -3,19 +3,65 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8"/>
+        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-        <title>Home Page</title>
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+        <title>SipNChip | Home</title>
     </head>
     <body>
-        <h1>Welcome to the home page</h1>
-        <div>
-            <p>Hello, {{username}}</p>
-	        <p>Your account balance is ${{balance}}</p>
-	        <p>Your user type is {{userType}}</p>
-            <a href="{% url 'SipNChipApp:logout' %}">Logout</a>
+        <div class="container">
+            <div class="row header-home">
+                <div class="col-xs-12 header-col">
+                    <h1>{{userType|title}} Dashboard</h1>
+                </div>
+            </div>
+            <div>
+                <p>Hello, {{username}}</p>
+                <p>Your account balance is ${{balance}}</p>
+                <p>Your user type is {{userType}}</p>
+                <br>
+            </div>
+            <div class="dashboard-items row">
+                {% if userType == "player" %}
+                <div class="col-xs-12">
+                    <a href="{% url 'SipNChipApp:tournaments' %}">
+                        <div class="dashboard-item">
+                            View Tournaments &#8594;
+                        </div>
+                    </a>
+                </div>
+                {% endif %}
+                
+                {% if userType == "sponsor" %}
+                
+                {% endif %}
+
+                {% if userType == "bartender" %}
+
+                {% endif %}
+
+                {% if userType == "manager" %}
+                <div class="col-xs-12">
+                    <a href="{% url 'SipNChipApp:tournament-creation' %}">
+                        <div class="dashboard-item">
+                            Create Tournament &#8594;
+                        </div>
+                    </a>
+                </div>
+                {% endif %}
+
+
+                <div class="col-xs-12">
+                    <a href="{% url 'SipNChipApp:logout' %}">
+                        <div class="dashboard-item">
+                            &#8592; Logout
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
     </body>
 </html>

@@ -6,8 +6,15 @@
     display:flex;
     margin-bottom: 30px;
 }
+.header-home {
+    background-color: #32C36C;
+    color: #F4F4F4;
+    height: 10vh;
+    display:flex;
+    margin-bottom: 30px;
+}
 
-.header-row .header-col {
+.header-row .header-col, .header-home.header-col {
     margin-top:auto;
     padding-left: 35px;
     padding-bottom: 35px;
@@ -43,4 +50,11 @@
 
 div.text-danger > p, p.text-danger {
     color: #FE5D67 !important;
+}
+
+.dashboard-item {
+    background-color: #EBEBEB;
+    color: #2C3E4B;
+    padding: 15px 20px;
+    margin: 10px 0px;
 }
