@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
@@ -26,7 +27,7 @@ def setUserType(request):
     account = get_object_or_404(Account, user=user)
     account.userType = userType
     account.save()
-    return HttpResponseRedirect(reverse('SipNChipApp:userType'))
+    return HttpResponseRedirect('/userType')
 
 @login_required(login_url='SipNChipApp:login')
 def home(request):
