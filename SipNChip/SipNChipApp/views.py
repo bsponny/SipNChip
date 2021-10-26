@@ -6,7 +6,7 @@ from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Tournament
+from .models import Tournament, SponsorRequest
 
 
 from django.contrib.auth.decorators import login_required
@@ -87,6 +87,7 @@ def logoutUser(request):
 # @allowed_user_types(allowed_types=[4])
 def tournamentCreation(request):
     message = ""
+    
     if request.method == 'POST':
         tournament = Tournament()
         tournament.dayOfTournament = request.POST['dayOfTournament']
@@ -109,3 +110,38 @@ def signup(request):
     tournament.save()
     messages.success(request, f"Successfully signed up for tournament on {tournament.dayOfTournament}")
     return HttpResponseRedirect('/tournaments')
+
+@login_required(login_url='SipNChipApp:login')
+def requestTournament(request):
+    if request.method == "POST":
+        dayOfTournament = request.POST.get("date")
+        sponsorRequest = SponsorRequest(sponsor=request.user, dayOfTournament=dayOfTournament)
+        sponsorRequest.save()
+        messages.success(request, f"Successfully submitted request for tournament on {dayOfTournament}")
+    return render(request, 'SipNChipApp/request-tournament.html', {})
+
+@login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[4])
+def sponsorRequests(request):
+    messages = []
+
+    if request.method == 'POST':
+        sponsorRequest = get_object_or_404(SponsorRequest, pk=request.POST.get('id'))
+        status = request.POST.get('status')
+        if (status == 'approve'):
+            tournament = Tournament()
+            tournament.dayOfTournament = sponsorRequest.dayOfTournament
+            tournament.save()
+            tournament.sponsoredBy.add(sponsorRequest.sponsor)
+            tournament.save()
+            messages.append(f"Request was approved and a tournament was created for {tournament}")
+        else:
+            messages.append(f"Request was denied for a tournament on {sponsorRequest.dayOfTournament}")
+        sponsorRequest.delete()
+
+    requests = SponsorRequest.objects.all()
+    if requests.count() == 0:
+        messages.append("There are currently no sponsor requests")
+
+    context = {'requests': requests, 'messages': messages}
+    return render(request, 'SipNChipApp/sponsor-requests.html', context)

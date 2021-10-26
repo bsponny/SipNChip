@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d48d1f74-e608-4e31-bac6-38efb21f42d4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/tournaments.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/request-tournament.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SipNChipApp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SipNChipApp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/urls.py" afterDir="false" />

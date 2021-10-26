@@ -34,7 +34,8 @@ class Tournament(models.Model):
         return str(self.dayOfTournament)
 
 class SponsorRequest(models.Model):
-    tournament = models.OneToOneField(Tournament, on_delete=models.CASCADE)
+    sponsor = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    dayOfTournament = models.DateField(null=True)
 
 class Drink(models.Model):
     name = models.CharField(max_length=30)

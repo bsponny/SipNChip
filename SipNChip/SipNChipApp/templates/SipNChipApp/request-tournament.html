@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Request Tournament</title>
+</head>
+<body>
+    <h1>Request Tournament</h1>
+    <form method="post" action="/request-tournament/">
+        {% csrf_token %}
+        <label for="date">Date:</label>
+        <input name="date" type="date">
+        <input type="submit">
+    </form>
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+    <a href="{% url "SipNChipApp:home" %}">Return Home</a>
+</body>
+</html>
