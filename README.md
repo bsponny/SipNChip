@@ -28,19 +28,19 @@ This project uses Git for version control, and is hosted at https://github.com/b
 
 ## Build instructions
 
-Install Python to your computer, then install Django if you have not done so already.  
+Install Python to your computer, then install Django and other dependent modules if you have not done so already.  
 `bash $ python -m pip install Django`  
+`bash $ python -m pip install django-crispy-forms`  
 
 Clone the project from GitHub to your local repository.  
-`bash $ git clone https://github.com/bsponny/SipNChip.git <your-repository>` 
+`bash $ git clone https://github.com/bsponny/SipNChip.git <your-repository>`  
 
 Open a command line such as Bash, then navigate to the `SipNChip` directory.  
-`bash $ cd <your-repository>/SipNChip
+`bash $ cd <your-repository>/SipNChip`  
 
 Apply all migrations to the project, then create a superuser.  
-`bash $ python manage.py migrate`
+`bash $ python manage.py migrate`  
 `bash $ python manage.py createsuperuser`  
-  
 
 Run the server, then launch the app from localhost:8000 in your web browser.  
 `bash $ python manage.py runserver`  
