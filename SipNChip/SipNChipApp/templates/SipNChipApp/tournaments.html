@@ -11,44 +11,53 @@
         <title>SipNChip | Tournament Sign-up</title>
     </head>
     <body>
-
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        <h1>Current Tournaments</h1>
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Sponsors</th>
-                <th>Players</th>
-                <th>Register</th>
-            </tr>
-            {% for tournament in tournament_list %}
-                <tr>
-                    <td>
-                        <p>{{ tournament.dayOfTournament }}</p>
-                    </td>
-                    <td>
-                        {% for sponsor in tournament.sponsoredBy.all %}
-                            <p>{{ sponsor.username }}</p>
-                        {% endfor %}
-                    </td>
-                    <td>
-                        {% for player in tournament.playersRegistered.all %}
-                            <p>{{ player.username }}</p>
-                        {% endfor %}
-                    </td>
-                    <td>
-                        <form method="post" action="/signup/">
-                            {% csrf_token %}
-                            <input type="hidden" name="id" value="{{ tournament.id }}">
-                            <input type="submit" value="Register">
-                        </form>
-                    </td>
-                </tr>
+        <div class="container">
+            {% for message in messages %}
+                <p>{{ message }}</p>
             {% endfor %}
-        </table>
+            <div class="col-xs-12 header-home">
+                <h1>Current Tournaments</h1>
+            </div>
+            <table class="table col-xs-12">
+                <tr>
+                    <th>Date</th>
+                    <th>Sponsors</th>
+                    <th>Players</th>
+                    <th>Register</th>
+                </tr>
+                {% for tournament in tournament_list %}
+                    <tr>
+                        <td>
+                            <p>{{ tournament.dayOfTournament }}</p>
+                        </td>
+                        <td>
+                            {% for sponsor in tournament.sponsoredBy.all %}
+                                <p>{{ sponsor.username }}</p>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for player in tournament.playersRegistered.all %}
+                                <p>{{ player.username }}</p>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <form method="post" action="/signup/">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ tournament.id }}">
+                                <input type="submit" value="Register">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
 
-        <a href="{% url "SipNChipApp:home" %}">Return Home</a>
+            <div class="col-xs-12">
+                <a href="{% url "SipNChipApp:home" %}">
+                    <div class="dashboard-item">
+                        &#8592; Return Home
+                    </div>
+                </a>
+            </div>
+        </div>
     </body>
 </html>

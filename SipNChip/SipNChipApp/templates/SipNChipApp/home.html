@@ -33,10 +33,23 @@
                         </div>
                     </a>
                 </div>
+                <div class="col-xs-12">
+                    <a href="{% url 'SipNChipApp:archived-tournaments' %}">
+                        <div class="dashboard-item">
+                            Archived Tournaments &#8594;
+                        </div>
+                    </a>
+                </div>
                 {% endif %}
                 
                 {% if userType == "sponsor" %}
-                
+                    <div class="col-xs-12">
+                        <a href="{% url 'SipNChipApp:request-tournament' %}">
+                            <div class="dashboard-item">
+                                Request Tournament &#8594;
+                            </div>
+                        </a>
+                    </div>
                 {% endif %}
 
                 {% if userType == "bartender" %}
