@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>SipNChip | Archived Tournaments</title>
+    </head>
+    <body>
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <h1>Archived Tournaments</h1>
+        {% for tournament in archive %}
+            <h2>{{ tournament.dayOfTournament }}</h2>
+            <h3>Sponsored by:</h3>
+            <ul>
+                {% for sponsor in tournament.sponsoredBy %}
+                    <li>{{ sponsor.username }}</li>
+                {% endfor %}
+            </ul>
+            <h3>Players: {{ tournament.playersRegistered.all.count }}</h3>
+            <ul>
+                {% for player in tournament.playersRegistered %}
+                    <li>{{ player.username }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+
+        <a href="{% url "SipNChipApp:home" %}">Return Home</a>
+    </body>
+</html>

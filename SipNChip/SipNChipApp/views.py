@@ -6,7 +6,8 @@ from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Tournament, SponsorRequest
+from .models import Tournament, SponsorRequest, Account
+from datetime import date
 
 
 from django.contrib.auth.decorators import login_required
@@ -107,8 +108,12 @@ def tournamentCreation(request):
     message = ""
     
     if request.method == 'POST':
+        dayOfTournament = request.POST['dayOfTournament']
+        if date.fromisoformat(dayOfTournament) < date.today():
+            message = "Error: Cannot create tournament on a past date"
+            return render(request, 'SipNChipApp/tournament-creation.html', {'message': message})
         tournament = Tournament()
-        tournament.dayOfTournament = request.POST['dayOfTournament']
+        tournament.dayOfTournament = dayOfTournament
         tournament.save()
         message = "Tournament was created for " + request.POST['dayOfTournament']
 
@@ -117,8 +122,18 @@ def tournamentCreation(request):
 @login_required(login_url='SipNChipApp:login')
 def tournaments(request):
     tournament_list = Tournament.objects.all()
+    if tournament_list.count() == 0:
+        messages.info(request, "There are currently no tournaments available to register for")
     context = {'tournament_list': tournament_list}
     return render(request, 'SipNChipApp/tournaments.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def archivedTournaments(request):
+    archive = Tournament.objects.filter(dayOfTournament__lt=date.today())
+    if archive.count() == 0:
+        messages.info(request, "There are currently no archived tournaments")
+    context = {'archive': archive}
+    return render(request, 'SipNChipApp/archived-tournaments.html', context)
 
 @login_required(login_url='SipNChipApp:login')
 def signup(request):
@@ -133,6 +148,9 @@ def signup(request):
 def requestTournament(request):
     if request.method == "POST":
         dayOfTournament = request.POST.get("date")
+        if date.fromisoformat(dayOfTournament) < date.today():
+            messages.error(request, "Error: Cannot create tournament on a past date")
+            return render(request, 'SipNChipApp/request-tournament.html', {})
         sponsorRequest = SponsorRequest(sponsor=request.user, dayOfTournament=dayOfTournament)
         sponsorRequest.save()
         messages.success(request, f"Successfully submitted request for tournament on {dayOfTournament}")
