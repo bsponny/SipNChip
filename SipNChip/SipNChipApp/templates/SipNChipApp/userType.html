@@ -1,14 +1,22 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'SipNChipApp/custom.css' %}"/>
+        <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
         <title>User Type Assignment</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'SipNChipApp/style.css' %}"/>
     </head>
     <body>
-        <h1>User Types</h1>
-        <div>
+	<div class="container">
+		<div class="row header-row">
+			<div class="col-xs-12 header-col">
+				<h1>&nbspUser Types</h1>
+			</div>
+		</div>
 		<table>
 			<tr>
 				<th>Username</th>
@@ -16,7 +24,7 @@
 			</tr>
 			{% for account in accounts %}
 				<tr>
-					<form method='POST' action='{% url 'SipNChipApp:setUserType' %}'>
+					<form method='POST' action='{% url 'SipNChipApp:setUserType' %}' class="form uniform">
 					{% csrf_token %}
 						<td>{{account.user}}</td>
 						<td>
@@ -26,13 +34,20 @@
 								<option value=3 {%if account.userType == 3 %} selected='selected' {% endif %}>Bartender</option>
 								<option value=4 {%if account.userType == 4 %} selected='selected' {% endif %}>Manager</option>
 							</select>
-							<input type="submit" name="setUserType" value="Set Type">
+							<input type="submit" name="setUserType" value="Set Type" class="btn">
 							<input type="hidden" name="username" value={{account.user}}>
 						</td>
 					</form>
 				</tr>
 			{% endfor %}
 		</table>
+            <div class="col-xs-12">
+                <a href="{% url "SipNChipApp:home" %}">
+                    <div class="dashboard-item">
+                        &#8592; Return Home
+                    </div>
+                </a>
+            </div>
         </div>
     </body>
 </html>

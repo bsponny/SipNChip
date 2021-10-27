@@ -58,3 +58,15 @@ div.text-danger > p, p.text-danger {
     padding: 15px 20px;
     margin: 10px 0px;
 }
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
