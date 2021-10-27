@@ -8,22 +8,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
-        <title>SipNChip | Tournament Sign-up</title>
+        <title>SipNChip | Archived Tournaments</title>
     </head>
     <body>
-
         {% for message in messages %}
             <p>{{ message }}</p>
         {% endfor %}
-        <h1>Current Tournaments</h1>
+        <h1>Archived Tournaments</h1>
         <table>
             <tr>
                 <th>Date</th>
                 <th>Sponsors</th>
                 <th>Players</th>
-                <th>Register</th>
             </tr>
-            {% for tournament in tournament_list %}
+            {% for tournament in archive %}
                 <tr>
                     <td>
                         <p>{{ tournament.dayOfTournament }}</p>
@@ -37,13 +35,6 @@
                         {% for player in tournament.playersRegistered.all %}
                             <p>{{ player.username }}</p>
                         {% endfor %}
-                    </td>
-                    <td>
-                        <form method="post" action="/signup/">
-                            {% csrf_token %}
-                            <input type="hidden" name="id" value="{{ tournament.id }}">
-                            <input type="submit" value="Register">
-                        </form>
                     </td>
                 </tr>
             {% endfor %}
