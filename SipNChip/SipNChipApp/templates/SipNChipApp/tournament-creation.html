@@ -1,20 +1,42 @@
+{% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
-        <title>Tournament Creation</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
+
+        <title>SipNChip | Tournament Creation</title>
     </head>
     <body>
-        <h2>Create a Tournament:</h2>
+        <div class="container">
+            <div class="row header-home">
+                <div class="col-xs-12 header-col">
+                    <h1>Create a Tournament</h1>
+                </div>
+            </div>
 
-        <form method='POST'>
-            {% csrf_token %}
-            <label for="dayOfTournament">Day of Tournament:</label>
-            <input type="date" name="dayOfTournament">
-            <p></p>
-            <button type="submit"><h4>SUBMIT</h4></button>
-        </form>
+            <form method='POST'>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="dayOfTournament">Day of Tournament:</label>
+                    <input type="date" name="dayOfTournament">
+                </div>
+                <input type="submit" class="btn" value="Submit">
+            </form>
 
-        <p>{{message}}</p>
+            <p class="alert">{{message}}</p>
+
+            <div class="col-xs-12">
+                <a href="{% url 'SipNChipApp:home' %}">
+                    <div class="dashboard-item">
+                        &#8592; Return Home
+                    </div>
+                </a>
+            </div>
+        </div>
     </body>
 </html>

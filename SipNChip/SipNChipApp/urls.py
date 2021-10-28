@@ -14,6 +14,7 @@ urlpatterns = [
     path('request-tournament/', views.requestTournament, name='request-tournament'),
     path('sponsor-requests/', views.sponsorRequests, name='sponsor-requests'),
     path('archived-tournaments', views.archivedTournaments, name='archived-tournaments'),
+    path('manage-tournaments/', views.manageTournaments, name='manage-tournaments'),
 ]
 
 app_name='SipNChipApp'

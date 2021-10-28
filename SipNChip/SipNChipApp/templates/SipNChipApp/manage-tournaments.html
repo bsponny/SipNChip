@@ -12,9 +12,6 @@
     </head>
     <body>
         <div class="container">
-            {% for message in messages %}
-                <p>{{ message }}</p>
-            {% endfor %}
             <div class="col-xs-12 header-home">
                 <h1>Current Tournaments</h1>
             </div>
@@ -23,9 +20,9 @@
                     <th>Date</th>
                     <th>Sponsors</th>
                     <th>Players</th>
-                    <th>Register</th>
+                    <th>Remove</th>
                 </tr>
-                {% for tournament in tournament_list %}
+                {% for tournament in tournaments %}
                     <tr>
                         <td>
                             <p>{{ tournament.dayOfTournament }}</p>
@@ -41,18 +38,23 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <form method="post" action="/signup/">
+                            <form method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="id" value="{{ tournament.id }}">
-                                <input type="submit" value="Register" name="register">
+                                <input type="submit" value="Remove">
                             </form>
                         </td>
                     </tr>
                 {% endfor %}
             </table>
 
+            <br>
+            {% for message in messages %}
+                <p class="alert">{{ message }}</p>
+            {% endfor %}
+
             <div class="col-xs-12">
-                <a href="{% url "SipNChipApp:home" %}">
+                <a href="{% url 'SipNChipApp:home' %}">
                     <div class="dashboard-item">
                         &#8592; Return Home
                     </div>

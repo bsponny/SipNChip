@@ -1,23 +1,70 @@
+{% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
-        <title>Sponsor Requests</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
+
+        <title>SipNChip | Sponsor Requests</title>
     </head>
     <body>
-        <h1>Sponsor Requests:</h1>
-        {% for request in requests %}
-            <form method='POST'>
-                {% csrf_token %}
-                <p>Request by {{request.sponsor}} for tournament on {{request.dayOfTournament}}</p>
-                <input type="submit" value="deny" name="status">
-                <input type="submit" value="approve" name="status">
-                <input type="hidden" name="id" value="{{ request.id }}">
-            </form>
-        {% endfor %}
-        <br>
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
+        <div class="container">
+            <div class="row header-home">
+                <div class="col-xs-12 header-col">
+                    <h1>Sponsor Requests</h1>
+                </div>
+            </div>
+            
+            <table class="table col-xs-12">
+                <tr>
+                    <th>Date</th>
+                    <th>Requested by</th>
+                    <th>Approve</th>
+                    <th>Deny</th>
+                </tr>
+
+                {% for request in requests %}
+                    <tr>
+                        <td>
+                            <p>{{request.dayOfTournament}}</p>
+                        </td>
+                        <td>
+                            <p>{{request.sponsor}}</p>
+                        </td>
+                        <td>
+                            <form method='POST'>
+                                {% csrf_token %}
+                                <input type="submit" value="approve" name="status">
+                                <input type="hidden" name="id" value="{{ request.id }}">
+                            </form>
+                        </td>
+                        <td>
+                            <form method='POST'>
+                                {% csrf_token %}
+                                <input type="submit" value="deny" name="status">
+                                <input type="hidden" name="id" value="{{ request.id }}">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <br>
+            {% for message in messages %}
+                <p class="alert">{{ message }}</p>
+            {% endfor %}
+
+            <div class="col-xs-12">
+                <a href="{% url 'SipNChipApp:home' %}">
+                    <div class="dashboard-item">
+                        &#8592; Return Home
+                    </div>
+                </a>
+            </div>
+        </div>
     </body>
 </html>

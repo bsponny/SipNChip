@@ -13,6 +13,7 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[4])
 def userType(request):
     accounts = Account.objects.order_by('user')
     context = {
@@ -21,6 +22,7 @@ def userType(request):
     return render(request, 'SipNChipApp/userType.html', context)
 
 @login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[4])
 def setUserType(request):
     username = request.POST.get('username')
     userType = request.POST.get('userType')
@@ -145,6 +147,7 @@ def signup(request):
     return HttpResponseRedirect('/tournaments')
 
 @login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[2])
 def requestTournament(request):
     if request.method == "POST":
         dayOfTournament = request.POST.get("date")
@@ -181,3 +184,20 @@ def sponsorRequests(request):
 
     context = {'requests': requests, 'messages': messages}
     return render(request, 'SipNChipApp/sponsor-requests.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[4])
+def manageTournaments(request):
+    messages = []
+
+    if request.method == 'POST':
+        tournament = get_object_or_404(Tournament, pk=request.POST.get('id'))
+        messages.append(f"Tournament on {tournament} was deleted")
+        tournament.delete()
+
+    tournaments = Tournament.objects.all()
+    if tournaments.count() == 0:
+        messages.append("There are currently no tournaments")
+
+    context = {'tournaments': tournaments, 'messages': messages}
+    return render(request, 'SipNChipApp/manage-tournaments.html', context)
