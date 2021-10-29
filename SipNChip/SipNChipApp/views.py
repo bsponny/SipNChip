@@ -13,6 +13,7 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[4])
 def userType(request):
     accounts = Account.objects.order_by('user')
     context = {
@@ -21,6 +22,7 @@ def userType(request):
     return render(request, 'SipNChipApp/userType.html', context)
 
 @login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[4])
 def setUserType(request):
     username = request.POST.get('username')
     userType = request.POST.get('userType')
@@ -121,7 +123,7 @@ def tournamentCreation(request):
 
 @login_required(login_url='SipNChipApp:login')
 def tournaments(request):
-    tournament_list = Tournament.objects.all()
+    tournament_list = Tournament.objects.filter(dayOfTournament__gte=date.today())
     if tournament_list.count() == 0:
         messages.info(request, "There are currently no tournaments available to register for")
     context = {'tournament_list': tournament_list}
@@ -129,7 +131,11 @@ def tournaments(request):
 
 @login_required(login_url='SipNChipApp:login')
 def archivedTournaments(request):
-    archive = Tournament.objects.filter(dayOfTournament__lt=date.today())
+    userType = request.user.account.userType
+    if userType == 4:
+        archive = Tournament.objects.filter(dayOfTournament__lt=date.today())
+    else:
+        archive = Tournament.objects.filter(dayOfTournament__lt=date.today(), playersRegistered=request.user)
     if archive.count() == 0:
         messages.info(request, "There are currently no archived tournaments")
     context = {'archive': archive}
@@ -145,6 +151,7 @@ def signup(request):
     return HttpResponseRedirect('/tournaments')
 
 @login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[2])
 def requestTournament(request):
     if request.method == "POST":
         dayOfTournament = request.POST.get("date")
@@ -207,3 +214,18 @@ def unSponsorByTournamentId(request):
     tournament.save()
     messages.success(request, f"Successfully withdrawed sponsorship from tournament on {tournament.dayOfTournament}")
     return HttpResponseRedirect('/sponsor-tournament')
+# @allowed_user_types(allowed_types=[4])
+def manageTournaments(request):
+    messages = []
+
+    if request.method == 'POST':
+        tournament = get_object_or_404(Tournament, pk=request.POST.get('id'))
+        messages.append(f"Tournament on {tournament} was deleted")
+        tournament.delete()
+
+    tournaments = Tournament.objects.all()
+    if tournaments.count() == 0:
+        messages.append("There are currently no tournaments")
+
+    context = {'tournaments': tournaments, 'messages': messages}
+    return render(request, 'SipNChipApp/manage-tournaments.html', context)
