@@ -190,6 +190,30 @@ def sponsorRequests(request):
     return render(request, 'SipNChipApp/sponsor-requests.html', context)
 
 @login_required(login_url='SipNChipApp:login')
+def sponsorTournament(request):
+    tournament_list = Tournament.objects.all()
+    if tournament_list.count() == 0:
+        messages.info(request, "There are currently no tournaments available to sponsor. Please go to request tournament page.")
+    context = {'tournament_list': tournament_list, 'user': request.user}
+    return render(request, 'SipNChipApp/sponsor-tournament.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def sponsorByTournamentId(request):
+    id = request.POST.get('id')
+    tournament = get_object_or_404(Tournament, pk=id)
+    tournament.sponsoredBy.add(request.user)
+    tournament.save()
+    messages.success(request, f"Successfully sponsored tournament on {tournament.dayOfTournament}")
+    return HttpResponseRedirect('/sponsor-tournament')
+
+@login_required(login_url='SipNChipApp:login')
+def unSponsorByTournamentId(request):
+    id = request.POST.get('id')
+    tournament = get_object_or_404(Tournament, pk=id)
+    tournament.sponsoredBy.remove(request.user)
+    tournament.save()
+    messages.success(request, f"Successfully withdrawed sponsorship from tournament on {tournament.dayOfTournament}")
+    return HttpResponseRedirect('/sponsor-tournament')
 # @allowed_user_types(allowed_types=[4])
 def manageTournaments(request):
     messages = []
