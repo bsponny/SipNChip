@@ -25,7 +25,7 @@
                 <br>
             </div>
             <div class="dashboard-items row">
-                {% if userType == "player" %}
+                {% if userType == "player" || userType == "manager" %}
                 <div class="col-xs-12">
                     <a href="{% url 'SipNChipApp:tournaments' %}">
                         <div class="dashboard-item">
@@ -42,7 +42,7 @@
                 </div>
                 {% endif %}
                 
-                {% if userType == "sponsor" %}
+                {% if userType == "sponsor" || userType == "manager" %}
                     <div class="col-xs-12">
                         <a href="{% url 'SipNChipApp:request-tournament' %}">
                             <div class="dashboard-item">
@@ -59,7 +59,7 @@
                     </div>
                 {% endif %}
 
-                {% if userType == "bartender" %}
+                {% if userType == "bartender" || userType == "manager" %}
 
                 {% endif %}
 
