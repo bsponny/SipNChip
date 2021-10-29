@@ -123,7 +123,7 @@ def tournamentCreation(request):
 
 @login_required(login_url='SipNChipApp:login')
 def tournaments(request):
-    tournament_list = Tournament.objects.all()
+    tournament_list = Tournament.objects.filter(dayOfTournament__gte=date.today())
     if tournament_list.count() == 0:
         messages.info(request, "There are currently no tournaments available to register for")
     context = {'tournament_list': tournament_list}
@@ -131,7 +131,11 @@ def tournaments(request):
 
 @login_required(login_url='SipNChipApp:login')
 def archivedTournaments(request):
-    archive = Tournament.objects.filter(dayOfTournament__lt=date.today())
+    userType = request.user.account.userType
+    if userType == 4:
+        archive = Tournament.objects.filter(dayOfTournament__lt=date.today())
+    else:
+        archive = Tournament.objects.filter(dayOfTournament__lt=date.today(), playersRegistered=request.user)
     if archive.count() == 0:
         messages.info(request, "There are currently no archived tournaments")
     context = {'archive': archive}
