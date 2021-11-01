@@ -6,7 +6,7 @@ from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Tournament, SponsorRequest, Account
+from .models import Tournament, SponsorRequest, Account, Scorecard
 from datetime import date
 
 
@@ -229,3 +229,38 @@ def manageTournaments(request):
 
     context = {'tournaments': tournaments, 'messages': messages}
     return render(request, 'SipNChipApp/manage-tournaments.html', context)
+
+@login_required(login_url="SipNChipApp:login")
+def scorecard(request, tournament_id, hole):
+    player = request.user
+    tournament = get_object_or_404(Tournament, pk=tournament_id)
+    scorecard = Scorecard.objects.filter(player=player, tournament=tournament)
+    if scorecard.count() > 1:
+        messages.error(request, "Error: More than one scorecard exists for this player/tournament combo somehow.")
+        # return to registered tournaments page
+    elif scorecard.count() == 0:
+        scorecard = Scorecard(player=player, tournament=tournament)
+        scorecard.save()
+        player.currentHole = 1
+        player.save()
+    else:
+        scorecard = scorecard.get(player=player)
+
+    if hole > player.currentHole + 1:
+        messages.error(request, f"Error: You cannot submit scores for holes you haven't played yet. You are currently "
+                                f"at hole {player.currentHole}.")
+        return HttpResponseRedirect(f'/scorecard/{tournament_id}/{player.currentHole}')
+
+
+    if request.method == 'POST':
+        currentScore = request.POST.get('currentScore')
+        if currentScore < 1 or currentScore > 5:
+            messages.error("Error: Invalid score entered. Please enter a score between 1 and 5.")
+            return HttpResponseRedirect(f'/scorecard/{tournament_id}/{player.currentHole}')
+        scorecard[hole] = currentScore
+        scorecard.save()
+
+
+    context = {'scorecard': scorecard, 'hole': hole, 'tournament_id': tournament_id}
+
+    return render(request, 'SipNChipApp/scorecard.html', context)

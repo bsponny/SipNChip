@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d48d1f74-e608-4e31-bac6-38efb21f42d4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/request-tournament.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/scorecard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SipNChipApp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SipNChipApp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/urls.py" afterDir="false" />
@@ -65,6 +65,35 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RunManager">
+    <configuration name="scratch" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="SipNChip" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.scratch" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
@@ -85,6 +114,11 @@
       <workItem from="1634790452780" duration="156000" />
       <workItem from="1634790669001" duration="5605000" />
       <workItem from="1634855420786" duration="8725000" />
+      <workItem from="1635475807373" duration="73000" />
+      <workItem from="1635475883657" duration="1089000" />
+      <workItem from="1635528559687" duration="789000" />
+      <workItem from="1635724813896" duration="9000" />
+      <workItem from="1635724853039" duration="13679000" />
     </task>
     <servers />
   </component>
@@ -102,5 +136,8 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SipNChip$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1635726732584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
   </component>
 </project>

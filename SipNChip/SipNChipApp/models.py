@@ -11,6 +11,8 @@ class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     userType = models.IntegerField(default=1) #1 = Player, 2 = Sponsor, 3 = Bartender, 4 = Manager
+    currentHole = models.IntegerField(default=0)
+
 
     @receiver(post_save, sender=User)
     def create_account(sender, instance, created, **kwargs):
@@ -44,3 +46,8 @@ class DrinkOrder(models.Model):
     drinks = models.ManyToManyField(Drink)
     orderedBy = models.OneToOneField(User, on_delete=models.CASCADE)
     totalPrice = models.DecimalField(max_digits=5, decimal_places=2)
+
+class Scorecard(models.Model):
+    player = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, blank=True)
+    scores = models.JSONField()
