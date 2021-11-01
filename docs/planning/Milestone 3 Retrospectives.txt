@@ -19,4 +19,19 @@ Andrew: 25%
 
 **Sprint 2:
 
+Members present: Leo (scrum master), Gavin, Andrew, Brock
+
+What went well: Hard deadlines, notified team of absences, communication, Django research
+
+What didn't go well: Brock didn't tell us he went to a wedding over the weekend
+
+What we can do to improve: Notify team of obstacles ahead of time, every time
+
+Final percent of work done (in terms of number of issue completed):
+
+Leo: 34% (3 issues)
+Brock: 22% (2 issues)
+Gavin: 22% (2 issues)
+Andrew: 22% (2 issues)
+
 **Sprint 3:
