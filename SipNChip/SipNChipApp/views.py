@@ -124,6 +124,7 @@ def tournamentCreation(request):
 @login_required(login_url='SipNChipApp:login')
 def tournaments(request):
     tournament_list = Tournament.objects.filter(dayOfTournament__gte=date.today())
+    tournament_list = tournament_list.order_by('dayOfTournament')
     if tournament_list.count() == 0:
         messages.info(request, "There are currently no tournaments available to register for")
     context = {'tournament_list': tournament_list}
@@ -229,3 +230,22 @@ def manageTournaments(request):
 
     context = {'tournaments': tournaments, 'messages': messages}
     return render(request, 'SipNChipApp/manage-tournaments.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def userTournaments(request):
+    tournament_list = Tournament.objects.filter(dayOfTournament__gte=date.today())
+    tournament_list = tournament_list.filter(playersRegistered__exact=request.user)
+    tournament_list = tournament_list.order_by('dayOfTournament')
+    if tournament_list.count() == 0:
+        messages.info(request, "There are currently no tournaments available to register for")
+    context = {'tournament_list': tournament_list}
+    return render(request, 'SipNChipApp/userTournaments.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def deregister(request):
+    id = request.POST.get('id')
+    tournament = get_object_or_404(Tournament, pk=id)
+    tournament.playersRegistered.remove(request.user)
+    tournament.save()
+    messages.success(request, f"Successfully deregistered for tournament on {tournament.dayOfTournament}")
+    return HttpResponseRedirect('/user-tournaments')

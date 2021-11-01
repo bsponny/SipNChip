@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
-        <title>SipNChip | Tournament Sign-up</title>
+        <title>SipNChip | Your Tournaments</title>
     </head>
     <body>
         <div class="container">
@@ -16,7 +16,7 @@
                 <p>{{ message }}</p>
             {% endfor %}
             <div class="col-xs-12 header-home">
-                <h1>Current Tournaments</h1>
+                <h1>Your Registered Tournaments</h1>
             </div>
             <table class="table col-xs-12">
                 <tr>
@@ -41,10 +41,10 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <form method="post" action="/signup/">
+                            <form method="post" action="/deregister/">
                                 {% csrf_token %}
                                 <input type="hidden" name="id" value="{{ tournament.id }}">
-                                <input type="submit" value="Register" name="register">
+                                <input type="submit" value="Deregister" name="deregister">
                             </form>
                         </td>
                     </tr>

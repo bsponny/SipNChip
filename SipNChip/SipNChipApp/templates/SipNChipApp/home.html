@@ -40,6 +40,13 @@
                         </div>
                     </a>
                 </div>
+                <div class="col-xs-12">
+                    <a href="{% url 'SipNChipApp:user-tournaments' %}">
+                        <div class="dashboard-item">
+                            View Tournaments Registered For &#8594;
+                        </div>
+                    </a>
+                </div>
                 {% endif %}
                 
                 {% if userType == "sponsor" %}
@@ -64,6 +71,27 @@
                 {% endif %}
 
                 {% if userType == "manager" %}
+                <div class="col-xs-12">
+                    <a href="{% url 'SipNChipApp:tournaments' %}">
+                        <div class="dashboard-item">
+                            View Tournaments &#8594;
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-12">
+                    <a href="{% url 'SipNChipApp:archived-tournaments' %}">
+                        <div class="dashboard-item">
+                            Archived Tournaments &#8594;
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-12">
+                    <a href="{% url 'SipNChipApp:user-tournaments' %}">
+                        <div class="dashboard-item">
+                            View Tournaments Registered For &#8594;
+                        </div>
+                    </a>
+                </div>
                 <div class="col-xs-12">
                     <a href="{% url 'SipNChipApp:tournament-creation' %}">
                         <div class="dashboard-item">

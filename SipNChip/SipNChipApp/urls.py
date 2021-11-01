@@ -18,6 +18,8 @@ urlpatterns = [
     path('sponsor-by-tournament-id/', views.sponsorByTournamentId, name='sponsor-by-tournament-id'),
     path('unsponsor-by-tournament-id/', views.unSponsorByTournamentId, name='unsponsor-by-tournament-id'),
     path('manage-tournaments/', views.manageTournaments, name='manage-tournaments'),
+    path('user-tournaments/', views.userTournaments, name='user-tournaments'),
+    path('deregister/', views.deregister, name='deregister'),
 ]
 
 app_name='SipNChipApp'
