@@ -146,6 +146,7 @@ def signup(request):
     id = request.POST.get('id')
     tournament = get_object_or_404(Tournament, pk=id)
     tournament.playersRegistered.add(request.user)
+    tournament.leaderboard[str(request.user)] = 0
     tournament.save()
     messages.success(request, f"Successfully signed up for tournament on {tournament.dayOfTournament}")
     return HttpResponseRedirect('/tournaments')
@@ -214,6 +215,7 @@ def unSponsorByTournamentId(request):
     tournament.save()
     messages.success(request, f"Successfully withdrawed sponsorship from tournament on {tournament.dayOfTournament}")
     return HttpResponseRedirect('/sponsor-tournament')
+
 # @allowed_user_types(allowed_types=[4])
 def manageTournaments(request):
     messages = []
@@ -264,3 +266,14 @@ def scorecard(request, tournament_id, hole):
     context = {'scorecard': scorecard, 'hole': hole, 'tournament_id': tournament_id}
 
     return render(request, 'SipNChipApp/scorecard.html', context)
+
+@login_required(login_url="SipNChipApp:login")
+def leaderboard(request, tournament_id):
+    tournament = get_object_or_404(Tournament, pk=tournament_id)
+    playerObjects = tournament.playersRegistered.all()
+    players = []
+    for player in playerObjects:
+        players.append([str(player), tournament.leaderboard[str(player)]])
+    
+    context = {'tournament': tournament, 'players': players}
+    return render(request, 'SipNChipApp/leaderboard.html', context)

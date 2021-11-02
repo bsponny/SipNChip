@@ -1,3 +1,4 @@
+from typing import DefaultDict
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -30,6 +31,7 @@ class Tournament(models.Model):
     dayOfTournament = models.DateField()
     playersRegistered = models.ManyToManyField(User, related_name="players", blank=True)
     sponsoredBy = models.ManyToManyField(User, related_name="sponsors", blank=True)
+    leaderboard = models.JSONField(default=dict)
     def __str__(self):
         return str(self.dayOfTournament)
 
