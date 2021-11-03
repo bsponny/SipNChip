@@ -14,16 +14,20 @@
     <body>
         <div class="container">
             <div class="col-xs-12 header-home">
-                <h1>Leaderboard for Tournament on {{tournament}}</h1>
+                <h1>Leaderboard for Tournament on {{tournament.dayOfTournament}}</h1>
             </div>
 
             <table class="table col-xs-12">
                 <tr>
+                    <th>Placement</th>
                     <th>Player</th>
                     <th>Score</th>
                 </tr>
                 {% for player in players %}
                     <tr>
+                        <td>
+                            <p>{{ forloop.counter }}</p>
+                        </td>
                         <td>
                             <p>{{ player.0 }}</p>
                         </td>

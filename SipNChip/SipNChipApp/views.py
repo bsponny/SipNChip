@@ -146,7 +146,6 @@ def signup(request):
     id = request.POST.get('id')
     tournament = get_object_or_404(Tournament, pk=id)
     tournament.playersRegistered.add(request.user)
-    tournament.leaderboard[str(request.user)] = 0
     tournament.save()
     messages.success(request, f"Successfully signed up for tournament on {tournament.dayOfTournament}")
     return HttpResponseRedirect('/tournaments')
@@ -274,6 +273,9 @@ def scorecard(request, tournament_id, hole):
         messages.success(request, "Score saved")
         player.currentHole += 1
         player.save()
+        if hole == 18:
+            tournament.leaderboard[str(request.user)] = sum(scorecard.values)
+            tournament.save()
 
 
     context = {'scorecard': scorecard, 'hole': hole, 'tournament_id': tournament_id}
@@ -310,9 +312,13 @@ def summary(request, tournament_id):
 def leaderboard(request, tournament_id):
     tournament = get_object_or_404(Tournament, pk=tournament_id)
     playerObjects = tournament.playersRegistered.all()
-    players = []
+    unsortedPlayers = []
     for player in playerObjects:
-        players.append([str(player), tournament.leaderboard[str(player)]])
+        try:
+            unsortedPlayers.append([str(player), tournament.leaderboard[str(player)]])
+        except KeyError:
+            pass
     
+    players = sorted(unsortedPlayers, key=lambda player: player[1])
     context = {'tournament': tournament, 'players': players}
     return render(request, 'SipNChipApp/leaderboard.html', context)
