@@ -20,6 +20,8 @@ urlpatterns = [
     path('manage-tournaments/', views.manageTournaments, name='manage-tournaments'),
     path('user-tournaments/', views.userTournaments, name='user-tournaments'),
     path('deregister/', views.deregister, name='deregister'),
+    path('balance/', views.balance, name='balance'),
+    path('addMoney/', views.addMoney, name='addMoney'),
 ]
 
 app_name='SipNChipApp'

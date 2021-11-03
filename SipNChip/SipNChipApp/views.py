@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import Tournament, SponsorRequest, Account
 from datetime import date
+from decimal import Decimal
 
 
 from django.contrib.auth.decorators import login_required
@@ -249,3 +250,21 @@ def deregister(request):
     tournament.save()
     messages.success(request, f"Successfully deregistered for tournament on {tournament.dayOfTournament}")
     return HttpResponseRedirect('/user-tournaments')
+
+@login_required(login_url='SipNChipApp:login')
+def balance(request):
+    username = request.user
+    balance = request.user.account.balance
+    context = {
+            'username': username,
+            'balance': balance,
+            }
+    return render(request, 'SipNChipApp/balance.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def addMoney(request):
+    amount = request.POST.get('amount')
+    account = get_object_or_404(Account, user=request.user)
+    account.balance += Decimal(amount)
+    account.save()
+    return HttpResponseRedirect('/balance')
