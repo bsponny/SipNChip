@@ -236,6 +236,16 @@ def manageTournaments(request):
 def scorecard(request, tournament_id, hole):
     player = request.user
     tournament = get_object_or_404(Tournament, pk=tournament_id)
+    if player not in tournament.playersRegistered:
+        messages.error(request, "Error: You are not registered for that tournament. Please sign up for it first.")
+        return HttpResponseRedirect('/tournaments/')
+    try:  # tests if a score already exists in the leaderboard for the user
+        tournament.leaderboard[player.username]
+        messages.error(request, "Error: You have already submitted your scores for this tournament.")
+        return HttpResponseRedirect("/tournaments/")
+    except KeyError:
+        pass
+
     scorecard = Scorecard.objects.filter(player=player, tournament=tournament)
     if scorecard.count() > 1:
         messages.error(request, "Error: More than one scorecard exists for this player/tournament combo somehow.")
@@ -248,7 +258,7 @@ def scorecard(request, tournament_id, hole):
     else:
         scorecard = scorecard.get(player=player)
 
-    if hole > player.currentHole + 1:
+    if hole > player.currentHole:
         messages.error(request, f"Error: You cannot submit scores for holes you haven't played yet. You are currently "
                                 f"at hole {player.currentHole}.")
         return HttpResponseRedirect(f'/scorecard/{tournament_id}/{player.currentHole}')
@@ -261,11 +271,40 @@ def scorecard(request, tournament_id, hole):
             return HttpResponseRedirect(f'/scorecard/{tournament_id}/{player.currentHole}')
         scorecard[hole] = currentScore
         scorecard.save()
+        messages.success(request, "Score saved")
+        player.currentHole += 1
+        player.save()
 
 
     context = {'scorecard': scorecard, 'hole': hole, 'tournament_id': tournament_id}
 
     return render(request, 'SipNChipApp/scorecard.html', context)
+
+@login_required(login_url="SipNChipApp:login")
+def summary(request, tournament_id):
+    player = request.user
+    tournament = get_object_or_404(Tournament, pk=tournament_id)
+    if player not in tournament.playersRegistered:
+        messages.error(request, "Error: You are not registered for that tournament. Please sign up for it first.")
+        return HttpResponseRedirect('/tournaments/')
+
+    scorecard = Scorecard.objects.get(player=player, tournament=tournament)
+    totalScore = sum(scorecard.values)
+
+    if request.method == "POST":
+        username = player.username
+        tournament.leaderboard[username] = scorecard.scores
+        tournament.save()
+        scorecard.delete()
+        messages.success(request, "Successfully submitted your scores. Congratulations!")
+        return HttpResponseRedirect(f"/leaderboard/{tournament_id}")
+
+    context = {'scorecard': scorecard,
+               'current_hole': player.currentHole,
+               'total_score': totalScore,
+               'tournament_id': tournament_id}
+
+    return render(request, 'SipNChipApp/summary.html', context)
 
 @login_required(login_url="SipNChipApp:login")
 def leaderboard(request, tournament_id):

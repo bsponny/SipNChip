@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
+    <title>SipNChip | Scorecard Summary</title>
+</head>
+<body>
+    <div class="container">
+        {% for message in messages %}
+            <p class="alert-danger">{{ message }}</p>
+        {% endfor %}
+        <div class="col-xs-12 header-home">
+            <h1>Scorecard Summary</h1>
+        </div>
+
+        <table class="table">
+            <tr>
+                <th>Hole</th>
+                <th>Score</th>
+            </tr>
+            {% for hole, score in scorecard %}
+                <tr>
+                    <td><a href="{% url "SipNChipApp:scorecard" tournament_id hole %}">{{ hole }}</a></td>
+                    <td>{{ score }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <th>Total</th>
+                <th>{{ total_score }}</th>
+            </tr>
+        </table>
+
+        {% if hole == 18 %}
+        <form method="post" action="/scorecard/{{ tournament_id }}/summary">
+            <input type="submit" value="Submit Scores" class="btn">
+        </form>
+        {% endif %}
+
+        <div class="col-xs-12">
+            <a href="{% url "SipNChip:tournaments" %}">
+                <div class="dashboard-item">
+                    &#8592; Return to Tournaments
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d48d1f74-e608-4e31-bac6-38efb21f42d4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/scorecard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/summary.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SipNChipApp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/scorecard.html" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/scorecard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SipNChipApp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SipNChipApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/planning/Milestone 3 Planning.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/planning/Milestone 3 Planning.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +119,8 @@
       <workItem from="1635475883657" duration="1089000" />
       <workItem from="1635528559687" duration="789000" />
       <workItem from="1635724813896" duration="9000" />
-      <workItem from="1635724853039" duration="13679000" />
+      <workItem from="1635724853039" duration="14177000" />
+      <workItem from="1635903216970" duration="3269000" />
     </task>
     <servers />
   </component>
