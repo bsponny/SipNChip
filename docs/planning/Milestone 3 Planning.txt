@@ -7,3 +7,7 @@ we forgor
 Issues #4-9, 16-17, 21-23 on the GitHub repository have been marked with expected length of workframe and completion criteria.
 
 **Sprint 3:
+
+Issues #30-33 were created on GitHub. 
+Issue #14 was marked as an enhancement, as part of issue #29. 
+Issues #10-13, 30-33 were marked with expected length of workframe and completion criteria.
