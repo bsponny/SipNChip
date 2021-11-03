@@ -235,7 +235,7 @@ def manageTournaments(request):
 def scorecard(request, tournament_id, hole):
     player = request.user
     tournament = get_object_or_404(Tournament, pk=tournament_id)
-    if player not in tournament.playersRegistered:
+    if player not in tournament.playersRegistered.all():
         messages.error(request, "Error: You are not registered for that tournament. Please sign up for it first.")
         return HttpResponseRedirect('/tournaments/')
     try:  # tests if a score already exists in the leaderboard for the user
