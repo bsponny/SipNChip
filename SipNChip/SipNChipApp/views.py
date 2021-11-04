@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import Tournament, SponsorRequest, Account, Scorecard
 from datetime import date
+from decimal import Decimal
 
 
 from django.contrib.auth.decorators import login_required
@@ -124,6 +125,7 @@ def tournamentCreation(request):
 @login_required(login_url='SipNChipApp:login')
 def tournaments(request):
     tournament_list = Tournament.objects.filter(dayOfTournament__gte=date.today())
+    tournament_list = tournament_list.order_by('dayOfTournament')
     if tournament_list.count() == 0:
         messages.info(request, "There are currently no tournaments available to register for")
     context = {'tournament_list': tournament_list}
@@ -231,6 +233,7 @@ def manageTournaments(request):
     context = {'tournaments': tournaments, 'messages': messages}
     return render(request, 'SipNChipApp/manage-tournaments.html', context)
 
+
 @login_required(login_url="SipNChipApp:login")
 def scorecard(request, tournament_id, hole):
     player = request.user
@@ -324,3 +327,41 @@ def leaderboard(request, tournament_id):
     players = sorted(unsortedPlayers, key=lambda player: player[1])
     context = {'tournament': tournament, 'players': players}
     return render(request, 'SipNChipApp/leaderboard.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def userTournaments(request):
+    tournament_list = Tournament.objects.filter(dayOfTournament__gte=date.today())
+    tournament_list = tournament_list.filter(playersRegistered__exact=request.user)
+    tournament_list = tournament_list.order_by('dayOfTournament')
+    if tournament_list.count() == 0:
+        messages.info(request, "There are currently no tournaments available to register for")
+    context = {'tournament_list': tournament_list}
+    return render(request, 'SipNChipApp/userTournaments.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def deregister(request):
+    id = request.POST.get('id')
+    tournament = get_object_or_404(Tournament, pk=id)
+    tournament.playersRegistered.remove(request.user)
+    tournament.save()
+    messages.success(request, f"Successfully deregistered for tournament on {tournament.dayOfTournament}")
+    return HttpResponseRedirect('/user-tournaments')
+
+@login_required(login_url='SipNChipApp:login')
+def balance(request):
+    username = request.user
+    balance = request.user.account.balance
+    context = {
+            'username': username,
+            'balance': balance,
+            }
+    return render(request, 'SipNChipApp/balance.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def addMoney(request):
+    amount = request.POST.get('amount')
+    account = get_object_or_404(Account, user=request.user)
+    account.balance += Decimal(amount)
+    account.save()
+    return HttpResponseRedirect('/balance')
+
