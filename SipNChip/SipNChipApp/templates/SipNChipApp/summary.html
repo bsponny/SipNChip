@@ -24,7 +24,7 @@
                 <th>Hole</th>
                 <th>Score</th>
             </tr>
-            {% for hole, score in scorecard %}
+            {% for hole, score in scorecard.scores.items %}
                 <tr>
                     <td><a href="{% url "SipNChipApp:scorecard" tournament_id hole %}">{{ hole }}</a></td>
                     <td>{{ score }}</td>
@@ -36,14 +36,15 @@
             </tr>
         </table>
 
-        {% if hole == 18 %}
+        {% if current_hole == 18 %}
         <form method="post" action="/scorecard/{{ tournament_id }}/summary">
+            {% csrf_token %}
             <input type="submit" value="Submit Scores" class="btn">
         </form>
         {% endif %}
 
         <div class="col-xs-12">
-            <a href="{% url "SipNChip:tournaments" %}">
+            <a href="{% url "SipNChipApp:tournaments" %}">
                 <div class="dashboard-item">
                     &#8592; Return to Tournaments
                 </div>

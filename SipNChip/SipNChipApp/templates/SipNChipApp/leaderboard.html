@@ -13,6 +13,9 @@
     </head>
     <body>
         <div class="container">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
             <div class="col-xs-12 header-home">
                 <h1>Leaderboard for Tournament on {{tournament.dayOfTournament}}</h1>
             </div>

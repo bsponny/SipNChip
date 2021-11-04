@@ -244,38 +244,43 @@ def scorecard(request, tournament_id, hole):
         return HttpResponseRedirect("/tournaments/")
     except KeyError:
         pass
+    if hole < 1 or hole > 18:
+        return HttpResponseRedirect("/tournaments/")
 
     scorecard = Scorecard.objects.filter(player=player, tournament=tournament)
     if scorecard.count() > 1:
         messages.error(request, "Error: More than one scorecard exists for this player/tournament combo somehow.")
-        # return to registered tournaments page
+        return HttpResponseRedirect('/tournaments/')  # return to registered tournaments page
     elif scorecard.count() == 0:
         scorecard = Scorecard(player=player, tournament=tournament)
         scorecard.save()
-        player.currentHole = 1
+        player.account.currentHole = 1
         player.save()
     else:
         scorecard = scorecard.get(player=player)
 
-    if hole > player.currentHole:
+    currentHole = player.account.currentHole
+    if hole > currentHole:
         messages.error(request, f"Error: You cannot submit scores for holes you haven't played yet. You are currently "
-                                f"at hole {player.currentHole}.")
-        return HttpResponseRedirect(f'/scorecard/{tournament_id}/{player.currentHole}')
+                                f"at hole {currentHole}.")
+        return HttpResponseRedirect(f'/scorecard/{tournament_id}/{currentHole}')
 
 
     if request.method == 'POST':
         currentScore = request.POST.get('currentScore')
-        if currentScore < 1 or currentScore > 5:
-            messages.error("Error: Invalid score entered. Please enter a score between 1 and 5.")
-            return HttpResponseRedirect(f'/scorecard/{tournament_id}/{player.currentHole}')
-        scorecard[hole] = currentScore
+        if int(currentScore) < 1 or int(currentScore) > 5:
+            messages.error(request, "Error: Invalid score entered. Please enter a score between 1 and 5.")
+            return HttpResponseRedirect(f'/scorecard/{tournament_id}/{currentHole}')
+        scorecard.scores[hole] = currentScore
         scorecard.save()
         messages.success(request, "Score saved")
-        player.currentHole += 1
+        if hole == currentHole and currentHole < 18:
+            currentHole += 1
+        player.account.currentHole = currentHole
         player.save()
-        if hole == 18:
-            tournament.leaderboard[str(request.user)] = sum(scorecard.values)
-            tournament.save()
+        # if hole == 18:
+        #     tournament.leaderboard[str(request.user)] = sum(scorecard.values)
+        #     tournament.save()
 
 
     context = {'scorecard': scorecard, 'hole': hole, 'tournament_id': tournament_id}
@@ -286,23 +291,25 @@ def scorecard(request, tournament_id, hole):
 def summary(request, tournament_id):
     player = request.user
     tournament = get_object_or_404(Tournament, pk=tournament_id)
-    if player not in tournament.playersRegistered:
+    if player not in tournament.playersRegistered.all():
         messages.error(request, "Error: You are not registered for that tournament. Please sign up for it first.")
         return HttpResponseRedirect('/tournaments/')
 
     scorecard = Scorecard.objects.get(player=player, tournament=tournament)
-    totalScore = sum(scorecard.values)
+    scores = scorecard.scores.values()
+    totalScore = 0
+    for score in scores:
+        totalScore += int(score)
 
     if request.method == "POST":
         username = player.username
         tournament.leaderboard[username] = scorecard.scores
         tournament.save()
-        scorecard.delete()
         messages.success(request, "Successfully submitted your scores. Congratulations!")
         return HttpResponseRedirect(f"/leaderboard/{tournament_id}")
 
     context = {'scorecard': scorecard,
-               'current_hole': player.currentHole,
+               'current_hole': player.account.currentHole,
                'total_score': totalScore,
                'tournament_id': tournament_id}
 

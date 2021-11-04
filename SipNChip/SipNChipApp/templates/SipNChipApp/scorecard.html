@@ -20,6 +20,7 @@
         </div>
 
     <form method="post" action="/scorecard/{{ tournament_id }}/{{ hole }}">
+        {% csrf_token  %}
         <div class="form-group">
             <label for="currentScore">Hole {{ hole }}:</label>
             <input name="currentScore" id="currentScore" type="number" min="1" max="5" value="0">
@@ -29,7 +30,7 @@
 
     {% if hole != 1 %}
         <div class="col-xs-12">
-            <a href="{% url "SipNChipApp:scorecard" tournament_id hole|add:"-1" %}">
+            <a href="{% url "SipNChipApp:scorecard" tournament_id=tournament_id hole=hole|add:"-1" %}">
                 <div class="dashboard-item">
                     &#8592; Previous Hole
                 </div>
@@ -39,7 +40,7 @@
 
     {% if hole != 18 %}
         <div class="col-xs-12">
-            <a href="{% url "SipNChipApp:scorecard" tournament_id hole|add:"1" %}">
+            <a href="{% url "SipNChipApp:scorecard" tournament_id=tournament_id hole=hole|add:"1" %}">
                 <div class="dashboard-item">
                     Next Hole &#8594;
                 </div>
@@ -49,7 +50,7 @@
 
     {% if hole == 18 %}
         <div class="col-xs-12">
-            <a href="{% url "SipNChipApp:summary" tournament_id %}">
+            <a href="{% url "SipNChipApp:summary" tournament_id=tournament_id %}">
                 <div class="dashboard-item">
                     View Scores &#8594;
                 </div>
