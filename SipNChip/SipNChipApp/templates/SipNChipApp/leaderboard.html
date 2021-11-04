@@ -1,0 +1,53 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
+
+        <title>SipNChip | Leaderboard</title>
+    </head>
+    <body>
+        <div class="container">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+            <div class="col-xs-12 header-home">
+                <h1>Leaderboard for Tournament on {{tournament.dayOfTournament}}</h1>
+            </div>
+
+            <table class="table col-xs-12">
+                <tr>
+                    <th>Placement</th>
+                    <th>Player</th>
+                    <th>Score</th>
+                </tr>
+                {% for player in players %}
+                    <tr>
+                        <td>
+                            <p>{{ forloop.counter }}</p>
+                        </td>
+                        <td>
+                            <p>{{ player.0 }}</p>
+                        </td>
+                        <td>
+                            <p>{{ player.1 }}</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="col-xs-12">
+                <a href="{% url 'SipNChipApp:home' %}">
+                    <div class="dashboard-item">
+                        &#8592; Return Home
+                    </div>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

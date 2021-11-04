@@ -1,3 +1,4 @@
+from typing import DefaultDict
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -11,6 +12,8 @@ class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     userType = models.IntegerField(default=1) #1 = Player, 2 = Sponsor, 3 = Bartender, 4 = Manager
+    currentHole = models.IntegerField(default=0)
+
 
     @receiver(post_save, sender=User)
     def create_account(sender, instance, created, **kwargs):
@@ -28,6 +31,7 @@ class Tournament(models.Model):
     dayOfTournament = models.DateField()
     playersRegistered = models.ManyToManyField(User, related_name="players", blank=True)
     sponsoredBy = models.ManyToManyField(User, related_name="sponsors", blank=True)
+    leaderboard = models.JSONField(default=dict)
     def __str__(self):
         return str(self.dayOfTournament)
 
@@ -44,3 +48,8 @@ class DrinkOrder(models.Model):
     drinks = models.ManyToManyField(Drink)
     orderedBy = models.OneToOneField(User, on_delete=models.CASCADE)
     totalPrice = models.DecimalField(max_digits=5, decimal_places=2)
+
+class Scorecard(models.Model):
+    player = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, blank=True)
+    scores = models.JSONField(default=dict)
