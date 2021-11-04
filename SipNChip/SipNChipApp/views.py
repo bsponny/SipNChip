@@ -278,10 +278,6 @@ def scorecard(request, tournament_id, hole):
             currentHole += 1
         player.account.currentHole = currentHole
         player.save()
-        # if hole == 18:
-        #     tournament.leaderboard[str(request.user)] = sum(scorecard.values)
-        #     tournament.save()
-
 
     context = {'scorecard': scorecard, 'hole': hole, 'tournament_id': tournament_id}
 
@@ -302,8 +298,7 @@ def summary(request, tournament_id):
         totalScore += int(score)
 
     if request.method == "POST":
-        username = player.username
-        tournament.leaderboard[username] = scorecard.scores
+        tournament.leaderboard[str(request.user)] = totalScore
         tournament.save()
         messages.success(request, "Successfully submitted your scores. Congratulations!")
         return HttpResponseRedirect(f"/leaderboard/{tournament_id}")
