@@ -6,7 +6,7 @@ from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Tournament, SponsorRequest, Account, Scorecard
+from .models import Tournament, SponsorRequest, Account, Scorecard, Drink
 from datetime import date
 from decimal import Decimal
 
@@ -365,3 +365,49 @@ def addMoney(request):
     account.save()
     return HttpResponseRedirect('/balance')
 
+@login_required(login_url='SipNChipApp:login')
+def drinkMenu(request):
+    if request.method == "POST":
+        drinkId = request.POST.get('drink-id')
+        drink = get_object_or_404(Drink, pk=drinkId)
+        drink.delete()
+
+    drinks = Drink.objects.all()
+    if drinks.count() == 0:
+        messages.info(request, "There are currently no drinks available")
+    context = {'drinks': drinks}
+
+    return render(request, 'SipNChipApp/drink-menu.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def addDrink(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        price = request.POST.get('price')
+
+        drink = Drink(name=name, description=description, price=price)
+        drink.save()
+        messages.success(request, "Successfully added drink to menu")
+        return HttpResponseRedirect('/drink-menu/')
+
+    return render(request, 'SipNChipApp/add-drink.html', {})
+
+@login_required(login_url='SipNChipApp:login')
+def editDrink(request, drink_id):
+    drink = get_object_or_404(Drink, pk=drink_id)
+
+    if request.method == "POST":
+        newName = request.POST.get('name')
+        drink.name = newName
+        newDescription = request.POST.get('description')
+        drink.description = newDescription
+        newPrice = request.POST.get('price')
+        drink.price = newPrice
+        drink.save()
+        messages.success(request, f"Successfully edited {newName}")
+        return HttpResponseRedirect('/drink-menu')
+
+    context = {'drink': drink, 'drink_id': drink_id}
+
+    return render(request, 'SipNChipApp/edit-drink.html', context)

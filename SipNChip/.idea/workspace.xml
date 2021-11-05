@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d48d1f74-e608-4e31-bac6-38efb21f42d4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/add-drink.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/drink-menu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/edit-drink.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/leaderboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/leaderboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/scorecard.html" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/scorecard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/templates/SipNChipApp/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SipNChipApp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SipNChipApp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/SipNChipApp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,6 +123,7 @@
       <workItem from="1635724853039" duration="14177000" />
       <workItem from="1635903216970" duration="3269000" />
       <workItem from="1635991292869" duration="3040000" />
+      <workItem from="1636133848370" duration="5587000" />
     </task>
     <servers />
   </component>
