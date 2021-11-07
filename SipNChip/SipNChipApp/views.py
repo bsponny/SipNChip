@@ -6,9 +6,9 @@ from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Tournament, SponsorRequest, Account, Scorecard, Drink
+from .models import DrinkOrder, Tournament, SponsorRequest, Account, Scorecard, Drink
 from datetime import date
-from decimal import Decimal
+from decimal import Context, Decimal
 
 
 from django.contrib.auth.decorators import login_required
@@ -411,3 +411,20 @@ def editDrink(request, drink_id):
     context = {'drink': drink, 'drink_id': drink_id}
 
     return render(request, 'SipNChipApp/edit-drink.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+# @allowed_user_types(allowed_types=[3, 4])
+def drinkOrders(request):
+    messages = []
+
+    if request.method == 'POST':
+        drinkorder = get_object_or_404(DrinkOrder, pk=request.POST.get('id'))
+        messages.append("Drink order for " + str(drinkorder.orderedBy) + " was marked as complete")
+        drinkorder.delete()
+
+    drinkOrders = DrinkOrder.objects.all()
+    if drinkOrders.count() == 0:
+        messages.append("There are currently no drink orders")
+
+    context = {'drinkOrders': drinkOrders, 'messages': messages}
+    return render(request, 'SipNChipApp/drink-orders.html', context)

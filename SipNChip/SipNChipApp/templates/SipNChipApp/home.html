@@ -82,6 +82,14 @@
 
                 {% if userType == "bartender" %}
                 <div class="col-xs-12">
+                    <a href="{% url 'SipNChipApp:drink-orders' %}">
+                        <div class="dashboard-item">
+                            View Drink Orders &#8594;
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-xs-12">
                     <a href="{% url 'SipNChipApp:balance' %}">
                         <div class="dashboard-item">
                             Add Money to Your Account &#8594;
@@ -145,6 +153,13 @@
                     <a href="{% url 'SipNChipApp:sponsor-requests' %}">
                         <div class="dashboard-item">
                             View Sponsor Requests &#8594;
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-12">
+                    <a href="{% url 'SipNChipApp:drink-orders' %}">
+                        <div class="dashboard-item">
+                            View Drink Orders &#8594;
                         </div>
                     </a>
                 </div>
