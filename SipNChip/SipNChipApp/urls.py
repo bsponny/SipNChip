@@ -29,6 +29,7 @@ urlpatterns = [
     path('edit-drink/<int:drink_id>', views.editDrink, name="edit-drink"),
     path('add-drink/', views.addDrink, name="add-drink"),
     path('drink-orders/', views.drinkOrders, name='drink-orders'),
+    path('user-orders/', views.userOrders, name='user-orders'),
 ]
 
 app_name='SipNChipApp'

@@ -462,3 +462,18 @@ def drinkOrders(request):
 
     context = {'drinkOrders': drinkOrders, 'messages': messages}
     return render(request, 'SipNChipApp/drink-orders.html', context)
+
+def userOrders(request):
+    messages = []
+
+    if request.method == 'POST':
+        drinkOrder = get_object_or_404(DrinkOrder, pk=request.POST.get('id'))
+        messages.append("Drink order totaling " + str(drinkOrder.totalPrice) + " was canceled")
+        drinkOrder.delete()
+
+    drinkOrders = DrinkOrder.objects.filter(orderedBy__exact=request.user)
+    if drinkOrders.count() == 0:
+        messages.append("You currently have no drink orders")
+    
+    context = {'drinkOrders': drinkOrders, 'messages': messages}
+    return render(request, 'SipNChipApp/user-orders.html', context)
