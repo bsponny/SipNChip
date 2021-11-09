@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='SipNChipApp:login')
 # @allowed_user_types(allowed_types=[4])
 def userType(request):
-    accounts = Account.objects.order_by('user')
+    accounts = Account.objects.order_by('user').exclude(userType=5)
     context = {
             'accounts': accounts,
             }
@@ -35,6 +35,7 @@ def setUserType(request):
 
 @login_required(login_url='SipNChipApp:login')
 def home(request):
+    adminAccount = get_object_or_404(Account, userType=5)
     if request.user.account.userType == 1:
         userType = 'player'
     elif request.user.account.userType == 2:
@@ -43,9 +44,12 @@ def home(request):
         userType = 'bartender'
     elif request.user.account.userType == 4:
         userType = 'manager'
+    elif request.user.account.userType == 5:
+        userType = 'admin'
     context = {
         'userType': userType,
         'balance': request.user.account.balance,
+        'companyBalance': adminAccount.balance,
         'username': request.user,
     }
     return render(request, 'SipNChipApp/home.html', context)
@@ -76,8 +80,10 @@ def registerPage(request):
                 userTypeName = "Sponsor"
             elif userType == 3:
                 userTypeName = "Bartender"
-            else:
+            elif userType == 4:
                 userTypeName = "Manager"
+            elif userType == 5:
+                userTypeName = "Administrator"
             messages.success(request, "Current user type is a " + userTypeName)
 
             return redirect('SipNChipApp:login')
@@ -155,14 +161,20 @@ def signup(request):
 @login_required(login_url='SipNChipApp:login')
 # @allowed_user_types(allowed_types=[2])
 def requestTournament(request):
+    account = get_object_or_404(Account, user=request.user)
     if request.method == "POST":
         dayOfTournament = request.POST.get("date")
         if date.fromisoformat(dayOfTournament) < date.today():
             messages.error(request, "Error: Cannot create tournament on a past date")
             return render(request, 'SipNChipApp/request-tournament.html', {})
-        sponsorRequest = SponsorRequest(sponsor=request.user, dayOfTournament=dayOfTournament)
-        sponsorRequest.save()
-        messages.success(request, f"Successfully submitted request for tournament on {dayOfTournament}")
+        if account.balance >= 500:
+            account.balance -= 500
+            account.save()
+            sponsorRequest = SponsorRequest(sponsor=request.user, dayOfTournament=dayOfTournament)
+            sponsorRequest.save()
+            messages.success(request, f"Successfully submitted request for tournament on {dayOfTournament}")
+        else:
+            messages.error(request, "Error: Sponsoring a tournament costs $500. Please add $500 to your account before requesting a tournament.")
     return render(request, 'SipNChipApp/request-tournament.html', {})
 
 @login_required(login_url='SipNChipApp:login')
@@ -172,6 +184,8 @@ def sponsorRequests(request):
 
     if request.method == 'POST':
         sponsorRequest = get_object_or_404(SponsorRequest, pk=request.POST.get('id'))
+        sponsorAccount = get_object_or_404(Account, user=sponsorRequest.sponsor)
+        adminAccount = get_object_or_404(Account, userType=5)
         status = request.POST.get('status')
         if (status == 'approve'):
             tournament = Tournament()
@@ -179,9 +193,14 @@ def sponsorRequests(request):
             tournament.save()
             tournament.sponsoredBy.add(sponsorRequest.sponsor)
             tournament.save()
+            adminAccount.balance += 500
+            adminAccount.save()
+
             messages.append(f"Request was approved and a tournament was created for {tournament}")
         else:
             messages.append(f"Request was denied for a tournament on {sponsorRequest.dayOfTournament}")
+            sponsorAccount.balance += 500
+            sponsorAccount.save()
         sponsorRequest.delete()
 
     requests = SponsorRequest.objects.all()
@@ -201,20 +220,35 @@ def sponsorTournament(request):
 
 @login_required(login_url='SipNChipApp:login')
 def sponsorByTournamentId(request):
-    id = request.POST.get('id')
-    tournament = get_object_or_404(Tournament, pk=id)
-    tournament.sponsoredBy.add(request.user)
-    tournament.save()
-    messages.success(request, f"Successfully sponsored tournament on {tournament.dayOfTournament}")
+    account = get_object_or_404(Account, user=request.user)
+    adminAccount = get_object_or_404(Account, userType=5)
+    if account.balance >= 500:
+        id = request.POST.get('id')
+        tournament = get_object_or_404(Tournament, pk=id)
+        tournament.sponsoredBy.add(request.user)
+        tournament.save()
+        account.balance -= 500
+        account.save()
+        adminAccount.balance += 500
+        adminAccount.save()
+        messages.success(request, f"Successfully sponsored tournament on {tournament.dayOfTournament}")
+    else:
+        messages.info(request, "You need $500 in your account in order to sponsor a tournament. Please add money to your account.")
     return HttpResponseRedirect('/sponsor-tournament')
 
 @login_required(login_url='SipNChipApp:login')
 def unSponsorByTournamentId(request):
+    account = get_object_or_404(Account, user=request.user)
+    adminAccount = get_object_or_404(Account, userType=5)
     id = request.POST.get('id')
     tournament = get_object_or_404(Tournament, pk=id)
     tournament.sponsoredBy.remove(request.user)
     tournament.save()
-    messages.success(request, f"Successfully withdrawed sponsorship from tournament on {tournament.dayOfTournament}")
+    account.balance += 500
+    account.save()
+    adminAccount.balance -= 500
+    adminAccount.save()
+    messages.success(request, f"Successfully withdrew sponsorship from tournament on {tournament.dayOfTournament}")
     return HttpResponseRedirect('/sponsor-tournament')
 
 # @allowed_user_types(allowed_types=[4])
