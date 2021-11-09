@@ -2,17 +2,13 @@
 
 ## What this project uses (tool stack)
 
-This application consists of a website built using Django, a full stack web development framework for Python. Other tools that are used in this project include HTML and (possibly) JavaScript, which are used to build the webpages themselves. The setup for this project simply consists of a Django project in a dedicated folder, `SipNChip`.
-
-## Tool stack and setup
-
-The tool stack, as previously mentioned, is Django (Python), HTML, and JavaScript. To set up for this project, each team member has downloaded Python on their computer and installed the Django package using Pip: `bash $ python -m pip install Django`. Each team member must also have a text editor capable of editing Python, HTML, and JavaScript files.
+This application consists of a website built using Django, a full stack web development framework for Python. Specifically, this project uses HTML templates which Django automatically populates with information from a database, allowing for dynamic generation of webpages. The setup for this project simply consists of a Django project in a dedicated folder, `SipNChip`.
 
 ## Tool stack setup
 
 Each member of the development team must download Python 3.7 or greater to their local computer, then install the Django package. The best way to install Django is to use Pip:  
 `bash $ python -m pip install Django`  
-Each team member must also use a text editor (or editors) that can edit Python, HTML, and JavaScript.  
+Each team member must also use a text editor (or editors) that can edit Python and HTML.  
 
 ## Organization procedures
 
@@ -40,15 +36,25 @@ Open a command line such as Bash, then navigate to the `SipNChip` directory.
 
 Apply all migrations to the project, then create a superuser.  
 `bash $ python manage.py migrate`  
-`bash $ python manage.py createsuperuser`  
+`bash $ winpty python manage.py createsuperuser`  
+
+Access the superuser using the shell, and set the user type to manager.  
+`bash $ python manage.py shell`  
+`python >>> from SipNChipApp.forms import User`  
+`python >>> from SipNChipApp.models import Account`  
+`python >>> user = User.objects.get(username=<your superuser username>)`  
+`python >>> account = Account.objects.get(user=user)`  
+`python >>> account.userType = 4`  
+`python >>> account.save()`  
+`python >>> exit()`  
 
 Run the server, then launch the app from localhost:8000 in your web browser.  
 `bash $ python manage.py runserver`  
 
-## Unit testing instructions
+## Testing procedures
 
-Unit tests will be written using Python's built-in `unittest` library. A file called `unittests.py`, which contains all necessary unit tests for this project, can be found in the `SipNChipApp` folder of the project.
+As development of features occurs, each team member is repsonsible for verifying that each feature they develop is capable of all required functionality without causing errors or bugs. For example, as Gavin develops the page for managers to create tournaments, he verifies that the page creates a tournament on the specified date by running the server and using the page to create a tournament, then checking the page with a list of available tournaments to verify that the tournament was created. After a feature is fully developed, the team should pull the changes from the repository and verify that the feature runs properly without breaking anything else on the server.  
 
-## System testing instructions
+## System testing instructions (subject to change)
 
-The superuser account that you made when building the project should allow you full administrator access to the database and its contents, which you can use to verify that the website functions properly.
+The superuser account that you made when building the project should allow you full administrator access to the database and its contents. In addition, setting the superuser account type to manager allows for setting user types of other accounts. You can use this account and another account to verify that the website functions properly.
