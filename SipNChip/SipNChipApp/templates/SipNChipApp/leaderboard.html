@@ -13,9 +13,6 @@
     </head>
     <body>
         <div class="container">
-            {% for message in messages %}
-                <p>{{ message }}</p>
-            {% endfor %}
             <div class="col-xs-12 header-home">
                 <h1>Leaderboard for Tournament on {{tournament.dayOfTournament}}</h1>
             </div>
@@ -40,6 +37,21 @@
                     </tr>
                 {% endfor %}
             </table>
+
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+
+	    {% if userType == 4 or userType == 5%}
+	    	<div class="col-xs-12">
+			<a href="{% url 'SipNChipApp:endTournament' tournament.id %}">
+			    <div class="dashboard-item">
+				End Tournament &#8594;
+			    </div>
+			</a>
+		</div>
+
+	    {% endif %}
 
             <div class="col-xs-12">
                 <a href="{% url 'SipNChipApp:home' %}">
