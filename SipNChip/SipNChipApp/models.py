@@ -53,3 +53,7 @@ class Scorecard(models.Model):
     player = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, blank=True)
     scores = models.JSONField(default=dict)
+
+class OrderNotification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    message = models.CharField(max_length=100)

@@ -6,7 +6,7 @@ from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import DrinkOrder, Tournament, SponsorRequest, Account, Scorecard, Drink
+from .models import DrinkOrder, Tournament, SponsorRequest, Account, Scorecard, Drink, OrderNotification
 from datetime import date
 from decimal import Context, Decimal
 
@@ -477,3 +477,19 @@ def userOrders(request):
     
     context = {'drinkOrders': drinkOrders, 'messages': messages}
     return render(request, 'SipNChipApp/user-orders.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def notifications(request):
+    user = request.user
+    notifications = OrderNotification.objects.filter(user=user)
+
+    if request.method == "POST":
+        notification_id = request.POST.get('notification_id')
+        notification = OrderNotification.objects.get(id=notification_id)
+        notification.delete()
+        return HttpResponseRedirect('/notifications')
+
+    if notifications.count() == 0:
+        messages.info(request, "You currently have no notifications")
+
+    return render(request, 'SipNChipApp/notifications.html', {'notifications': notifications})
