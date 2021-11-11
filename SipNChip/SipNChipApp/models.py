@@ -13,6 +13,7 @@ class Account(models.Model):
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     userType = models.IntegerField(default=1) #1 = Player, 2 = Sponsor, 3 = Bartender, 4 = Manager, 5 = Admin
     currentHole = models.IntegerField(default=0)
+    triedToSponsor = models.BooleanField(default=False)
 
 
     @receiver(post_save, sender=User)
@@ -32,6 +33,7 @@ class Tournament(models.Model):
     playersRegistered = models.ManyToManyField(User, related_name="players", blank=True)
     sponsoredBy = models.ManyToManyField(User, related_name="sponsors", blank=True)
     leaderboard = models.JSONField(default=dict)
+    isOpen = models.BooleanField(default=False)
     def __str__(self):
         return str(self.dayOfTournament)
 

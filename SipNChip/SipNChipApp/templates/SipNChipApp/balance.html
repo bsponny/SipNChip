@@ -19,6 +19,7 @@
 			</div>
 			<div>
 				<h2 class="jumbotron text-center">Current Balance: ${{balance}}</h2>
+				<p>{{message}}</p>
 				<div class="text-center">
 					<form method='POST' action='{% url 'SipNChipApp:addMoney' %}' class="form uniform">
 						{% csrf_token %}
@@ -28,6 +29,11 @@
 					</form>
 				</div>
 			</div>
+		        {% for message in messages %}
+				<div class="col-xs-12"> 
+				    <p>{{ message }}</p>
+				</div>
+		        {% endfor %}
 
 			<div class="col-xs-12">
 				<a href="{% url 'SipNChipApp:home' %}">

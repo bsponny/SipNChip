@@ -142,8 +142,10 @@ def archivedTournaments(request):
     userType = request.user.account.userType
     if userType == 4:
         archive = Tournament.objects.filter(dayOfTournament__lt=date.today())
+        archive = archive.order_by('dayOfTournament')
     else:
         archive = Tournament.objects.filter(dayOfTournament__lt=date.today(), playersRegistered=request.user)
+        archive = archive.order_by('dayOfTournament')
     if archive.count() == 0:
         messages.info(request, "There are currently no archived tournaments")
     context = {'archive': archive}
@@ -174,7 +176,9 @@ def requestTournament(request):
             sponsorRequest.save()
             messages.success(request, f"Successfully submitted request for tournament on {dayOfTournament}")
         else:
-            messages.error(request, "Error: Sponsoring a tournament costs $500. Please add $500 to your account before requesting a tournament.")
+            account.triedToSponsor = True
+            account.save()
+            return HttpResponseRedirect('/balance')
     return render(request, 'SipNChipApp/request-tournament.html', {})
 
 @login_required(login_url='SipNChipApp:login')
@@ -204,6 +208,7 @@ def sponsorRequests(request):
         sponsorRequest.delete()
 
     requests = SponsorRequest.objects.all()
+    requests = requests.order_by('dayOfTournament')
     if requests.count() == 0:
         messages.append("There are currently no sponsor requests")
 
@@ -213,6 +218,7 @@ def sponsorRequests(request):
 @login_required(login_url='SipNChipApp:login')
 def sponsorTournament(request):
     tournament_list = Tournament.objects.all()
+    tournament_list = tournament_list.order_by('dayOfTournament')
     if tournament_list.count() == 0:
         messages.info(request, "There are currently no tournaments available to sponsor. Please go to request tournament page.")
     context = {'tournament_list': tournament_list, 'user': request.user}
@@ -233,7 +239,9 @@ def sponsorByTournamentId(request):
         adminAccount.save()
         messages.success(request, f"Successfully sponsored tournament on {tournament.dayOfTournament}")
     else:
-        messages.info(request, "You need $500 in your account in order to sponsor a tournament. Please add money to your account.")
+        account.triedToSponsor = True
+        account.save()
+        return HttpResponseRedirect('/balance')
     return HttpResponseRedirect('/sponsor-tournament')
 
 @login_required(login_url='SipNChipApp:login')
@@ -257,16 +265,26 @@ def manageTournaments(request):
 
     if request.method == 'POST':
         tournament = get_object_or_404(Tournament, pk=request.POST.get('id'))
+        adminAccount = get_object_or_404(Account, userType=5)
+        sponsorList = tournament.sponsoredBy.all()
+        if len(sponsorList) > 0:
+            sponsor = sponsorList[0]
+            sponsorAccount = get_object_or_404(Account, user=sponsor)
+            sponsorAccount.balance += 500
+            sponsorAccount.save()
+            adminAccount.balance -= 500
+            adminAccount.save()
+            messages.append(f"{sponsor} was refunded $500")
         messages.append(f"Tournament on {tournament} was deleted")
         tournament.delete()
 
     tournaments = Tournament.objects.all()
+    tournaments = tournaments.order_by("dayOfTournament")
     if tournaments.count() == 0:
         messages.append("There are currently no tournaments")
 
     context = {'tournaments': tournaments, 'messages': messages}
     return render(request, 'SipNChipApp/manage-tournaments.html', context)
-
 
 @login_required(login_url="SipNChipApp:login")
 def scorecard(request, tournament_id, hole):
@@ -357,9 +375,11 @@ def leaderboard(request, tournament_id):
             unsortedPlayers.append([str(player), tournament.leaderboard[str(player)]])
         except KeyError:
             pass
+    userType = request.user.account.userType
+    isOpen = tournament.isOpen
     
     players = sorted(unsortedPlayers, key=lambda player: player[1])
-    context = {'tournament': tournament, 'players': players}
+    context = {'tournament': tournament, 'players': players, 'userType': userType, 'isOpen': isOpen,}
     return render(request, 'SipNChipApp/leaderboard.html', context)
 
 @login_required(login_url='SipNChipApp:login')
@@ -385,19 +405,36 @@ def deregister(request):
 def balance(request):
     username = request.user
     balance = request.user.account.balance
+    triedToSponsor = request.user.account.triedToSponsor
+    message = ""
+    if balance < 500 and triedToSponsor:
+        remainder = 500 - balance
+        message = "You need $500 to sponsor a tournament. Please add $" + str(remainder) + " to your account."
+        request.user.account.triedToSponsor = False
+        request.user.account.save()
     context = {
             'username': username,
             'balance': balance,
+            'message': message,
             }
     return render(request, 'SipNChipApp/balance.html', context)
 
 @login_required(login_url='SipNChipApp:login')
 def addMoney(request):
     amount = request.POST.get('amount')
-    account = get_object_or_404(Account, user=request.user)
-    account.balance += Decimal(amount)
-    account.save()
-    return HttpResponseRedirect('/balance')
+    if amount != "":
+        amount = Decimal(amount)
+        if amount < 0:
+            messages.error(request, "You can't add a negative amount of money.")
+            return HttpResponseRedirect('/balance')
+        else:
+            account = get_object_or_404(Account, user=request.user)
+            account.balance += amount
+            account.save()
+            return HttpResponseRedirect('/balance')
+    else:
+        messages.error(request, "Please specify how much money to add")
+        return HttpResponseRedirect('/balance')
 
 @login_required(login_url='SipNChipApp:login')
 def drinkMenu(request):
@@ -447,7 +484,7 @@ def editDrink(request, drink_id):
     return render(request, 'SipNChipApp/edit-drink.html', context)
 
 @login_required(login_url='SipNChipApp:login')
-# @allowed_user_types(allowed_types=[3, 4])
+# @allowed_user_types(allowed_types=[3, 4, 5])
 def drinkOrders(request):
     messages = []
 
@@ -477,3 +514,48 @@ def userOrders(request):
     
     context = {'drinkOrders': drinkOrders, 'messages': messages}
     return render(request, 'SipNChipApp/user-orders.html', context)
+
+@login_required(login_url='SipNChipApp:login')
+def endTournament(request, tournamentId):
+    adminAccount = get_object_or_404(Account, userType=5)
+    tournament = get_object_or_404(Tournament, pk=tournamentId)
+    leaderboard = tournament.leaderboard
+    sortedLeaderboard = sorted(leaderboard.items(), key=lambda x:x[1])
+
+    if len(sortedLeaderboard) > 0:
+        firstPlaceUserObject = sortedLeaderboard[0]
+        firstPlaceUsername = firstPlaceUserObject[0]
+        firstPlaceUser = get_object_or_404(User, username=firstPlaceUsername)
+        firstPlaceAccount = get_object_or_404(Account, user=firstPlaceUser)
+        firstPlaceAccount.balance += 100
+        firstPlaceAccount.save()
+        adminAccount.balance -= 100
+        adminAccount.save()
+        messages.success(request, f"Successfully gave " + firstPlaceUsername + " $100")
+
+    if len(sortedLeaderboard) > 1:
+        secondPlaceUserObject = sortedLeaderboard[1]
+        secondPlaceUsername = secondPlaceUserObject[0]
+        secondPlaceUser = get_object_or_404(User, username=secondPlaceUsername)
+        secondPlaceAccount = get_object_or_404(Account, user=secondPlaceUser)
+        secondPlaceAccount.balance += 50
+        secondPlaceAccount.save()
+        adminAccount.balance -= 50
+        adminAccount.save()
+        messages.success(request, f"Successfully gave " + secondPlaceUsername + " $50")
+
+    if len(sortedLeaderboard) > 2:
+        thirdPlaceUserObject = sortedLeaderboard[2]
+        thirdPlaceUsername = thirdPlaceUserObject[0]
+        thirdPlaceUser = get_object_or_404(User, username=thirdPlaceUsername)
+        thirdPlaceAccount = get_object_or_404(Account, user=thirdPlaceUser)
+        thirdPlaceAccount.balance += 25
+        thirdPlaceAccount.save()
+        adminAccount.balance -= 25
+        adminAccount.save()
+        messages.success(request, f"Successfully gave " + thirdPlaceUsername + " $25")
+
+    tournament.isOpen = False
+    tournament.save()
+
+    return HttpResponseRedirect('/leaderboard/'+ str(tournamentId) + '/')
