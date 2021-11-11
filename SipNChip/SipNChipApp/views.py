@@ -376,9 +376,10 @@ def leaderboard(request, tournament_id):
         except KeyError:
             pass
     userType = request.user.account.userType
+    isOpen = tournament.isOpen
     
     players = sorted(unsortedPlayers, key=lambda player: player[1])
-    context = {'tournament': tournament, 'players': players, 'userType': userType,}
+    context = {'tournament': tournament, 'players': players, 'userType': userType, 'isOpen': isOpen,}
     return render(request, 'SipNChipApp/leaderboard.html', context)
 
 @login_required(login_url='SipNChipApp:login')
@@ -553,5 +554,8 @@ def endTournament(request, tournamentId):
         adminAccount.balance -= 25
         adminAccount.save()
         messages.success(request, f"Successfully gave " + thirdPlaceUsername + " $25")
+
+    tournament.isOpen = False
+    tournament.save()
 
     return HttpResponseRedirect('/leaderboard/'+ str(tournamentId) + '/')

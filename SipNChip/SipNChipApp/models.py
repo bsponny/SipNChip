@@ -33,6 +33,7 @@ class Tournament(models.Model):
     playersRegistered = models.ManyToManyField(User, related_name="players", blank=True)
     sponsoredBy = models.ManyToManyField(User, related_name="sponsors", blank=True)
     leaderboard = models.JSONField(default=dict)
+    isOpen = models.BooleanField(default=False)
     def __str__(self):
         return str(self.dayOfTournament)
 

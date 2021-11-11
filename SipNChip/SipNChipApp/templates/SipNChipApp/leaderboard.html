@@ -42,15 +42,17 @@
                 <p>{{ message }}</p>
             {% endfor %}
 
-	    {% if userType == 4 or userType == 5%}
-	    	<div class="col-xs-12">
-			<a href="{% url 'SipNChipApp:endTournament' tournament.id %}">
-			    <div class="dashboard-item">
-				End Tournament &#8594;
-			    </div>
-			</a>
-		</div>
+	    {% if isOpen %}
+		    {% if userType == 4 or userType == 5 %}
+			<div class="col-xs-12">
+				<a href="{% url 'SipNChipApp:endTournament' tournament.id %}">
+				    <div class="dashboard-item">
+					End Tournament &#8594;
+				    </div>
+				</a>
+			</div>
 
+		    {% endif %}
 	    {% endif %}
 
             <div class="col-xs-12">
