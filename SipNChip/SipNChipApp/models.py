@@ -1,9 +1,7 @@
-from typing import DefaultDict
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from decimal import Decimal
 
 
 # Create your models here.
@@ -45,11 +43,13 @@ class Drink(models.Model):
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=250)
     price = models.DecimalField(max_digits=4, decimal_places=2)
+    def __str__(self):
+        return str(self.name)
 
 class DrinkOrder(models.Model):
-    drinks = models.ManyToManyField(Drink)
-    orderedBy = models.OneToOneField(User, on_delete=models.CASCADE)
-    totalPrice = models.DecimalField(max_digits=5, decimal_places=2)
+    drinks = models.JSONField(default=dict)
+    orderedBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    totalPrice = models.DecimalField(max_digits=5, decimal_places=2, null=True)
 
 class Scorecard(models.Model):
     player = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)

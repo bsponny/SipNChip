@@ -23,8 +23,8 @@
                 {% for order in drinkOrders %}
                     <tr>
                         <td>
-                            {% for drink in order.drinks.all %}
-                                <p>{{ drink.name }}</p>
+                            {% for drink, quantity in order.drinks.items %}
+                                <p>{{ drink }} ({{ quantity }})</p>
                             {% endfor %}
                         </td>
                         <td>

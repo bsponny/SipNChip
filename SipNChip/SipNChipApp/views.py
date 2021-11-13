@@ -559,3 +559,26 @@ def endTournament(request, tournamentId):
     tournament.save()
 
     return HttpResponseRedirect('/leaderboard/'+ str(tournamentId) + '/')
+
+@login_required(login_url='SipNChipApp:login')
+def orderDrinks(request):
+    messages = []
+
+    if request.method == 'POST':
+        total = 0
+        order = DrinkOrder()
+        order.orderedBy = request.user
+        for drink in Drink.objects.all():
+            quantity = request.POST.get(str(drink.id))
+            if (int(quantity) > 0):
+                order.drinks[str(drink)] = quantity
+                total += float(quantity) * float(drink.price)
+        order.totalPrice = total
+        order.save()
+
+        messages.append("Successfuly submitted order totaling " + str(order.totalPrice))        
+
+    drinks = Drink.objects.all()
+
+    context = {'drinks': drinks, 'messages': messages}
+    return render(request, 'SipNChipApp/order-drinks.html', context)
