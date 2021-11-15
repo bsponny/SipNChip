@@ -454,6 +454,12 @@ def drinkOrders(request):
     if request.method == 'POST':
         drinkorder = get_object_or_404(DrinkOrder, pk=request.POST.get('id'))
         messages.append("Drink order for " + str(drinkorder.orderedBy) + " was marked as complete")
+        notificationMessage = "Your drink order is ready "
+        currentHole = drinkorder.orderedBy.account.currentHole
+        delivery = f"and is being delievered to hole {currentHole}" if currentHole > 0 else "and is ready for pickup at the bar"
+        notificationMessage += delivery
+        notification = OrderNotification(user=drinkorder.orderedBy, message=notificationMessage)
+        notification.save()
         drinkorder.delete()
 
     drinkOrders = DrinkOrder.objects.all()
