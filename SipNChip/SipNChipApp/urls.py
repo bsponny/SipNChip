@@ -30,6 +30,7 @@ urlpatterns = [
     path('add-drink/', views.addDrink, name="add-drink"),
     path('drink-orders/', views.drinkOrders, name='drink-orders'),
     path('user-orders/', views.userOrders, name='user-orders'),
+    path('notifications/', views.notifications, name='notifications'),
     path('endTournament/<int:tournamentId>', views.endTournament, name='endTournament'),
     path('order-drinks/', views.orderDrinks, name='order-drinks'),
 ]
