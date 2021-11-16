@@ -31,6 +31,15 @@ def populate_menu(apps, schema_editor):
     )
     drink4.save()
 
+def populate_user(apps, schema_editor):
+    Account = apps.get_model('SipNChipApp', 'Account')
+
+    user = User.objects.create_user(username='admin', password='SipNChip')
+    user.save()
+
+#    account = Account(user=user, userType=5, id=1)
+#    account.save()
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -39,5 +48,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(populate_menu),
+        migrations.RunPython(populate_user),
     ]
     
