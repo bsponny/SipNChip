@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'SipNChipApp.apps.SipnchipappConfig',
     'crispy_forms',
+    'django_bootstrap_icons'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
