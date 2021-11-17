@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
+    <title>SipNChip | Order Drinks</title>
+</head>
+<body>
+    <div class="container">
+        <div class="col-xs-12 header-home">
+            <h1>Order Drinks</h1>
+        </div>
+
+        <table class="table col-xs-12">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+
+            <form id="order" method="post">
+                {% csrf_token %}
+                {% for drink in drinks %}
+                    <tr>
+                        <td>{{ drink.name }}</td>
+                        <td>{{ drink.description }}</td>
+                        <td>${{ drink.price }}</td>
+                        <td>
+                                <input id="{{ drink.id }}" name="{{ drink.id }}" type="number" min="0" value="0">
+                        </td>
+                    </tr>
+                {% endfor %}
+            </form>
+        </table>
+
+        <input type="submit" class="btn" value="Submit Order" form="order">
+
+        <br>
+        {% for message in messages %}
+            <p class="alert">{{ message }}</p>
+        {% endfor %}
+
+        <div class="col-xs-12">
+            <a href="{% url 'SipNChipApp:home' %}">
+                <div class="dashboard-item">
+                    &#8592; Return Home
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

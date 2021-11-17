@@ -19,8 +19,21 @@ urlpatterns = [
     path('sponsor-by-tournament-id/', views.sponsorByTournamentId, name='sponsor-by-tournament-id'),
     path('unsponsor-by-tournament-id/', views.unSponsorByTournamentId, name='unsponsor-by-tournament-id'),
     path('manage-tournaments/', views.manageTournaments, name='manage-tournaments'),
+    path('scorecard/<int:tournament_id>/<int:hole>', views.scorecard, name="scorecard"),
+    path('scorecard/<int:tournament_id>/summary', views.summary, name="summary"),
+    path('leaderboard/<int:tournament_id>/', views.leaderboard, name='leaderboard'),
     path('user-tournaments/', views.userTournaments, name='user-tournaments'),
     path('deregister/', views.deregister, name='deregister'),
+    path('balance/', views.balance, name='balance'),
+    path('addMoney/', views.addMoney, name='addMoney'),
+    path('drink-menu/', views.drinkMenu, name="drink-menu"),
+    path('edit-drink/<int:drink_id>', views.editDrink, name="edit-drink"),
+    path('add-drink/', views.addDrink, name="add-drink"),
+    path('drink-orders/', views.drinkOrders, name='drink-orders'),
+    path('user-orders/', views.userOrders, name='user-orders'),
+    path('notifications/', views.notifications, name='notifications'),
+    path('endTournament/<int:tournamentId>', views.endTournament, name='endTournament'),
+    path('order-drinks/', views.orderDrinks, name='order-drinks'),
 ]
 
 app_name='SipNChipApp'

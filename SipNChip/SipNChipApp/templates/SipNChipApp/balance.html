@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
+		<link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
+
+		<title>SipNChip | Account Balance</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row header-home">
+				<div class="col-xs-12 header-col">
+					<h1>Balance for {{username}}</h1>
+				</div>
+			</div>
+			<div>
+				<h2 class="jumbotron text-center">Current Balance: ${{balance}}</h2>
+				<p>{{message}}</p>
+				<div class="text-center">
+					<form method='POST' action='{% url 'SipNChipApp:addMoney' %}' class="form uniform">
+						{% csrf_token %}
+						<label for="number">Amount: </label>
+						<input type="number" name="amount">
+						<input type="submit" name="add" value="Add" class="btn">
+					</form>
+				</div>
+			</div>
+		        {% for message in messages %}
+				<div class="col-xs-12"> 
+				    <p>{{ message }}</p>
+				</div>
+		        {% endfor %}
+
+			<div class="col-xs-12">
+				<a href="{% url 'SipNChipApp:home' %}">
+				<div class="dashboard-item">
+					&#8592; Return Home
+				</div>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>

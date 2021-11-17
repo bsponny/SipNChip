@@ -23,7 +23,7 @@
                     <th>Date</th>
                     <th>Sponsors</th>
                     <th>Players</th>
-                    <th>Register</th>
+                    <th>Actions</th>
                 </tr>
                 {% for tournament in tournament_list %}
                     <tr>
@@ -41,6 +41,9 @@
                             {% endfor %}
                         </td>
                         <td>
+                            <a href="{% url "SipNChipApp:scorecard" tournament_id=tournament.id hole="1" %}">
+                                <button type="button">Play</button>
+                            </a>
                             <form method="post" action="/deregister/">
                                 {% csrf_token %}
                                 <input type="hidden" name="id" value="{{ tournament.id }}">

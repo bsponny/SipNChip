@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
+    <title>SipNChip | Add Drink</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header-home col-xs-12">
+            <h1>Add Drink</h1>
+        </div>
+
+        <form method="post" action="/add-drink/">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" maxlength="30">
+            </div>
+            <div class="form-group">
+		    <label for="description">Description:</label></br>
+		<textarea id="description" name="description" cols=93 rows=5 maxlength="250"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="price">Price: $</label>
+                <input type="number" min="0.00" max="99.99" step="0.01" name="price" id="price">
+            </div>
+            <input type="submit" value="Add Drink" class="btn">
+        </form>
+
+        <div class="col-xs-12">
+            <a href="{% url 'SipNChipApp:drink-menu' %}">
+                <div class="dashboard-item">
+                    &#8592; Return to Drink Menu
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
