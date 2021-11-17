@@ -1,4 +1,5 @@
-from django.db import migrations
+from django.db import migrations, models
+from SipNChipApp.forms import User
 
 def populate_menu(apps, schema_editor):
     Drink = apps.get_model('SipNChipApp', 'Drink')
@@ -34,8 +35,8 @@ def populate_menu(apps, schema_editor):
 def populate_user(apps, schema_editor):
     Account = apps.get_model('SipNChipApp', 'Account')
 
-    user = User.objects.create_user(username='admin', password='SipNChip')
-    user.save()
+    admin = User.objects.create_user(username='admin', password='SipNChip')
+#    user.save()
 
 #    account = Account(user=user, userType=5, id=1)
 #    account.save()
