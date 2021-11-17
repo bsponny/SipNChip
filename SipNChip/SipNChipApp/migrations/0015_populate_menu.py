@@ -1,4 +1,5 @@
-from django.db import migrations
+from django.db import migrations, models
+
 
 def populate_menu(apps, schema_editor):
     Drink = apps.get_model('SipNChipApp', 'Drink')
@@ -31,6 +32,16 @@ def populate_menu(apps, schema_editor):
     )
     drink4.save()
 
+def populate_user(apps, schema_editor):
+    User = apps.get_model('auth', 'User')
+    Account = apps.get_model('SipNChipApp', 'Account')
+
+    admin = User.objects.create_user(username='admin', password='SipNChip')
+    admin.save()
+
+    account = Account(user=admin, userType=5, id=1)
+    account.save()
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -39,5 +50,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(populate_menu),
+        migrations.RunPython(populate_user),
     ]
     
