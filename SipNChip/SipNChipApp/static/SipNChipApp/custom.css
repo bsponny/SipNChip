@@ -1,3 +1,4 @@
+
 .header-row {
     background-color: #32C36C;
     color: #F4F4F4;
@@ -12,16 +13,13 @@
     display:flex;
     margin-bottom: 30px;
 }
-.header-home h1 {
-    font-size: 26px;
-    padding-right: 0px;
-}
+
 .header-row .header-col, .header-home.header-col {
     margin-top:auto;
     padding-left: 35px;
     padding-bottom: 35px;
-    justify-content: space-between;
 }
+
 .btn.btn-primary {
     border: none;
     background-color: #ECF0FE;
@@ -30,11 +28,7 @@
     width: 100%;
     margin-top: 15px;
 }
-body {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    position:fixed;
-}
+
 .login-input {
     height: 50px;
     color: #2C3E4B;
@@ -75,76 +69,4 @@ td, th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
-}
-.login-image {
-    width: 100vw;
-    margin-left: -15px;
-}
-
-.bi {
-    vertical-align: middle;
-    margin-bottom: 3px;
-}
-.hamburger-left-icon, .header-title {
-    height: 100%;
-    display: flex;
-    align-items: center;
-}
-.hamburger-left-icon .bi {
-    margin: 0;
-}
-.header-title > h1 {
-    margin: 0;
-}
-.navbar {
-    background-color: #0DBABA;
-    position: absolute;
-    z-index: 100;
-    transition-property: all;
-    transition-duration: .5s;
-    width: 100%;
-    height: 100vh;
-    transform: translateX(100%);
-
-}
-.container {
-    transition-property: all;
-    transition-duration: .5s;
-    width: 100vw;
-}
-.navbar.open {
-    transform: translateX(20%);
-}
-.container.open {
-   transform: scale(0.9) translateX(-20%); 
-}
-.container {
-    background-color: white;
-    height: 100vh;
-}
-.body-background {
-    background-color: #2C3E4B;
-}
-.navbar .hamburger-left-icon {
-    height: 63px; 
-    margin-top: 15px;
-}
-.nav-title {
-    height: 63px;
-    display: inline-block;
-    vertical-align: middle;
-    color: #EBEBEB;
-}
-.dashboard-photo {
-    display: flex;
-    justify-content: center;
-}
-.dashboard-buttons-row {
-    display: flex;
-    justify-content: space-around;
-}
-.btn-dashboard {
-    padding: 8px 35px;
-    background-color: #0DBABA;
-    color: white;
 }
