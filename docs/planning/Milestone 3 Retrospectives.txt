@@ -27,7 +27,7 @@ What didn't go well: Brock didn't tell us he went to a wedding over the weekend
 
 What we can do to improve: Notify team of obstacles ahead of time, every time
 
-Final percent of work done (in terms of number of issue completed):
+Final percent of work done (in terms of number of issues completed):
 
 Leo: 34% (3 issues)
 Brock: 22% (2 issues)
@@ -35,3 +35,18 @@ Gavin: 22% (2 issues)
 Andrew: 22% (2 issues)
 
 **Sprint 3:
+
+Members present: Leo (scrum master), Gavin, Andrew, Brock
+
+What went well: Efficient work, making sure everyone has tasks, helping teammates
+
+What didn't go well: Some tasks took longer than expected, new tasks in middle of sprint (unexpected complications)
+
+What we can do to improve: Better planning of task timeframes
+
+Final percent of work done (in terms of number of issues completed):
+
+Leo: 23% (3 issues)
+Brock: 23% (3 issues)
+Gavin: 31% (4 issues)
+Andrew: 23% (1 big issue for entire sprint (we decided it was worth 3))
