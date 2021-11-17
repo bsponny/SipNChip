@@ -25,6 +25,7 @@
                     <th>Date</th>
                     <th>Sponsors</th>
                     <th>Players</th>
+                    <th>Leaderboard</th>
                 </tr>
                 {% for tournament in archive %}
                     <tr>
@@ -40,6 +41,11 @@
                             {% for player in tournament.playersRegistered.all %}
                                 <p>{{ player.username }}</p>
                             {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{% url "SipNChipApp:leaderboard" tournament_id=tournament.id %}">
+                                <button type="button" class="btn">Leaderboard</button>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

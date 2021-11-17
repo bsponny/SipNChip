@@ -18,6 +18,7 @@
                 <tr>
                     <th>Ordered By</th>
                     <th>Order</th>
+                    <th>Total</th>
                     <th>Current Hole</th>
                     <th>Mark Completed</th>
                 </tr>
@@ -27,9 +28,12 @@
                             <p>{{ order.orderedBy }}</p>
                         </td>
                         <td>
-                            {% for drink in order.drinks.all %}
-                                <p>{{ drink.name }}</p>
+                            {% for drink, quantity in order.drinks.items %}
+                                <p>{{ drink }} ({{ quantity }})</p>
                             {% endfor %}
+                        </td>
+                        <td>
+                            <p>${{ order.totalPrice }}</p>
                         </td>
                         <td>
                             <p>{{ order.orderedBy.account.currentHole }}</p>

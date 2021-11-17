@@ -6,7 +6,7 @@ from SipNChipApp.decorators import allowed_user_types, unauthenticated_user
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import DrinkOrder, Tournament, SponsorRequest, Account, Scorecard, Drink
+from .models import DrinkOrder, Tournament, SponsorRequest, Account, Scorecard, Drink, OrderNotification
 from datetime import date
 from decimal import Context, Decimal
 
@@ -491,6 +491,12 @@ def drinkOrders(request):
     if request.method == 'POST':
         drinkorder = get_object_or_404(DrinkOrder, pk=request.POST.get('id'))
         messages.append("Drink order for " + str(drinkorder.orderedBy) + " was marked as complete")
+        notificationMessage = "Your drink order is ready "
+        currentHole = drinkorder.orderedBy.account.currentHole
+        delivery = f"and is being delievered to hole {currentHole}" if currentHole > 0 else "and is ready for pickup at the bar"
+        notificationMessage += delivery
+        notification = OrderNotification(user=drinkorder.orderedBy, message=notificationMessage)
+        notification.save()
         drinkorder.delete()
 
     drinkOrders = DrinkOrder.objects.all()
@@ -516,6 +522,21 @@ def userOrders(request):
     return render(request, 'SipNChipApp/user-orders.html', context)
 
 @login_required(login_url='SipNChipApp:login')
+def notifications(request):
+    user = request.user
+    notifications = OrderNotification.objects.filter(user=user)
+
+    if request.method == "POST":
+        notification_id = request.POST.get('notification_id')
+        notification = OrderNotification.objects.get(id=notification_id)
+        notification.delete()
+        return HttpResponseRedirect('/notifications')
+
+    if notifications.count() == 0:
+        messages.info(request, "You currently have no notifications")
+
+    return render(request, 'SipNChipApp/notifications.html', {'notifications': notifications})
+
 def endTournament(request, tournamentId):
     adminAccount = get_object_or_404(Account, userType=5)
     tournament = get_object_or_404(Tournament, pk=tournamentId)
@@ -559,3 +580,26 @@ def endTournament(request, tournamentId):
     tournament.save()
 
     return HttpResponseRedirect('/leaderboard/'+ str(tournamentId) + '/')
+
+@login_required(login_url='SipNChipApp:login')
+def orderDrinks(request):
+    messages = []
+
+    if request.method == 'POST':
+        total = 0
+        order = DrinkOrder()
+        order.orderedBy = request.user
+        for drink in Drink.objects.all():
+            quantity = request.POST.get(str(drink.id))
+            if (int(quantity) > 0):
+                order.drinks[str(drink)] = quantity
+                total += float(quantity) * float(drink.price)
+        order.totalPrice = total
+        order.save()
+
+        messages.append("Successfuly submitted order totaling " + str(order.totalPrice))        
+
+    drinks = Drink.objects.all()
+
+    context = {'drinks': drinks, 'messages': messages}
+    return render(request, 'SipNChipApp/order-drinks.html', context)

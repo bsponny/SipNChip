@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
+    <title>SipNChipApp | Notifications</title>
+</head>
+<body>
+    <div class="container">
+        <div class="col-xs-12 header-home">
+            <h1>Notifications</h1>
+        </div>
+
+        <table class="table col-xs-12">
+            {% for notification in notifications %}
+                <tr>
+                    <td>{{ notification.message }}</td>
+                    <td>
+                        <form method="post" action="/notifications/">
+                            <input type="hidden" value="{{ notification.id }}" name="notification_id" id="notification_id">
+                            <input type="submit" value="Dismiss" class="btn">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <div class="col-xs-12">
+            <a href="{% url "SipNChipApp:home" %}">
+                <div class="dashboard-item">
+                    &#8592; Return Home
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
