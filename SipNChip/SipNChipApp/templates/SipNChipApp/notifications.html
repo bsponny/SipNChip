@@ -22,6 +22,7 @@
                     <td>{{ notification.message }}</td>
                     <td>
                         <form method="post" action="/notifications/">
+                            {% csrf_token %}
                             <input type="hidden" value="{{ notification.id }}" name="notification_id" id="notification_id">
                             <input type="submit" value="Dismiss" class="btn">
                         </form>
