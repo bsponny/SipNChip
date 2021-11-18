@@ -12,8 +12,8 @@
     </head>
     <body>
 	<div class="container">
-		<div class="row header-row">
-			<div class="col-xs-12 header-col">
+		<div class="row header-home">
+			<div class="col-xs-12">
 				<h1>&nbspUser Types</h1>
 			</div>
 		</div>
@@ -24,7 +24,7 @@
 			</tr>
 			{% for account in accounts %}
 				<tr>
-					<form method='POST' action='{% url 'SipNChipApp:setUserType' %}' class="form uniform">
+					<form method='POST' action="{% url 'SipNChipApp:setUserType' %}" class="form uniform">
 					{% csrf_token %}
 						<td>{{account.user}}</td>
 						<td>
@@ -34,15 +34,16 @@
 								<option value=3 {%if account.userType == 3 %} selected='selected' {% endif %}>Bartender</option>
 								<option value=4 {%if account.userType == 4 %} selected='selected' {% endif %}>Manager</option>
 							</select>
-							<input type="submit" name="setUserType" value="Set Type" class="btn">
+							<input type="submit" name="setUserType" value="Set Type" class="btn btn-dashboard">
 							<input type="hidden" name="username" value={{account.user}}>
 						</td>
 					</form>
 				</tr>
 			{% endfor %}
 		</table>
+		<br><br>
             <div class="col-xs-12">
-                <a href="{% url "SipNChipApp:home" %}">
+                <a href="{% url 'SipNChipApp:home' %}">
                     <div class="dashboard-item">
                         &#8592; Return Home
                     </div>

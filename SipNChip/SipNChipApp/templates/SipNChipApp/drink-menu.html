@@ -12,8 +12,10 @@
 </head>
 <body>
     <div class="container">
-        <div class="col-xs-12 header-home">
-            <h1>Drink Menu</h1>
+        <div class="row header-home">
+            <div class="col-xs-12">
+                <h1>Drink Menu</h1>
+            </div>
         </div>
 
         {% for message in messages %}
@@ -40,7 +42,7 @@
                         <form method="post" action="/drink-menu/">
                             {% csrf_token %}
                             <input type="hidden" value="{{ drink.id }}" name="drink-id">
-                            <input type="submit" class="btn" value="Remove">
+                            <input type="submit" class="btn btn-danger" value="Remove">
                         </form>
                     </td>
                 </tr>
@@ -48,15 +50,15 @@
         </table>
 
         <div class="col-xs-12">
-            <a href="{% url "SipNChipApp:add-drink" %}">
-                <div class="dashboard-item">
-                    Add Drink &#8594;
+            <a href="{% url 'SipNChipApp:add-drink' %}">
+                <div class="btn btn-dashboard">
+                    Add Drink +
                 </div>
             </a>
         </div>
-
+        <br>
         <div class="col-xs-12">
-            <a href="{% url "SipNChipApp:home" %}">
+            <a href="{% url 'SipNChipApp:home' %}">
                 <div class="dashboard-item">
                     &#8592; Return Home
                 </div>

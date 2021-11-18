@@ -12,11 +12,10 @@
     </head>
     <body>
         <div class="container">
-            {% for message in messages %}
-                <p>{{ message }}</p>
-            {% endfor %}
-            <div class="col-xs-12 header-home">
-                <h1>Your Registered Tournaments</h1>
+            <div class="row header-home">
+                <div class="col-xs-12">
+                    <h1>Your Registered Tournaments</h1>
+                </div>
             </div>
             <table class="table col-xs-12">
                 <tr>
@@ -41,21 +40,23 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{% url "SipNChipApp:scorecard" tournament_id=tournament.id hole="1" %}">
-                                <button type="button">Play</button>
+                            <a href="{% url 'SipNChipApp:scorecard' tournament_id=tournament.id hole='1' %}">
+                                <button type="button" class="btn btn-dashboard">Play</button>
                             </a>
                             <form method="post" action="/deregister/">
                                 {% csrf_token %}
                                 <input type="hidden" name="id" value="{{ tournament.id }}">
-                                <input type="submit" value="Deregister" name="deregister">
+                                <input type="submit" value="Deregister" name="deregister" class="btn btn-danger">
                             </form>
                         </td>
                     </tr>
                 {% endfor %}
             </table>
-
+            {% for message in messages %}
+                <p class="danger-message">{{ message }}</p>
+            {% endfor %}
             <div class="col-xs-12">
-                <a href="{% url "SipNChipApp:home" %}">
+                <a href="{% url 'SipNChipApp:home' %}">
                     <div class="dashboard-item">
                         &#8592; Return Home
                     </div>

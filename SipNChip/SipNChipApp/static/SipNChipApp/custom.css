@@ -155,3 +155,9 @@ nav hr {
     overflow-y: scroll;
     max-height: 90%;
 }
+.danger-message {
+    color:#FE5D67;
+}
+.btn-danger {
+    background-color: #FE5D67;
+}

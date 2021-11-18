@@ -11,8 +11,10 @@
     </head>
     <body>
         <div class="container">
-            <div class="col-xs-12 header-home">
-                <h1>Current Drink Orders</h1>
+            <div class="row header-home">
+                <div class="col-xs-12">
+                    <h1>Current Drink Orders</h1>
+                </div>
             </div>
             <table class="table col-xs-12">
                 <tr>
@@ -42,7 +44,7 @@
                             <form method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="id" value="{{ order.id }}">
-                                <input type="submit" class="btn" value="Complete">
+                                <input type="submit" class="btn btn-dashboard" value="Complete">
                             </form>
                         </td>
                     </tr>

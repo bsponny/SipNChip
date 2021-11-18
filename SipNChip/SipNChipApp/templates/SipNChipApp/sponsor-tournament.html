@@ -12,8 +12,10 @@
     </head>
     <body>
         <div class="container">
-            <div class="col-xs-12 header-home">
-                <h1>Sponsor</h1>
+            <div class="row header-home">
+                <div class="col-xs-12">
+                    <h1>Sponsor</h1>
+                </div>
             </div>
 	    <div>
 		    <p>It is $500 to Sponsor a future tournament. Please make sure you have the money in your account before you sponsor a tournament.</p>
@@ -60,7 +62,7 @@
             </table>
             {% for message in messages %}
                 <div class="col-xs-12"> 
-                    <p>{{ message }}</p>
+                    <p class="danger-message">{{ message }}</p>
                 </div>
             {% endfor %}
             <div class="col-xs-12">

@@ -12,8 +12,10 @@
 </head>
 <body>
     <div class="container">
-        <div class="header-home col-xs-12">
-            <h1>Add Drink</h1>
+        <div class="header-home row">
+            <div class="col-xs-12">
+                <h1>Add Drink</h1>
+            </div>
         </div>
 
         <form method="post" action="/add-drink/">
@@ -30,7 +32,7 @@
                 <label for="price">Price: $</label>
                 <input type="number" min="0.00" max="99.99" step="0.01" name="price" id="price">
             </div>
-            <input type="submit" value="Add Drink" class="btn">
+            <input type="submit" value="Add Drink" class="btn btn-dashboard">
         </form>
 
         <div class="col-xs-12">
