@@ -12,11 +12,10 @@
 </head>
 <body>
     <div class="container">
-        {% for message in messages %}
-            <p class="alert-danger">{{ message }}</p>
-        {% endfor %}
-        <div class="col-xs-12 header-home">
-            <h1>Scorecard Summary</h1>
+        <div class="row header-home">
+            <div class="col-xs-12">
+                <h1>Scorecard Summary</h1>
+            </div>
         </div>
 
         <table class="table">
@@ -39,9 +38,13 @@
         {% if current_hole == 18 %}
         <form method="post" action="/scorecard/{{ tournament_id }}/summary">
             {% csrf_token %}
-            <input type="submit" value="Submit Scores" class="btn">
+            <input type="submit" value="Submit Scores" class="btn btn-dashboard">
         </form>
         {% endif %}
+
+        {% for message in messages %}
+            <p class="alert-danger">{{ message }}</p>
+        {% endfor %}
 
         <div class="col-xs-12">
             <a href="{% url "SipNChipApp:tournaments" %}">

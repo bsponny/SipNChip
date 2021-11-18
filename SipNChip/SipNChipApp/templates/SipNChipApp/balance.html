@@ -13,7 +13,7 @@
 	<body>
 		<div class="container">
 			<div class="row header-home">
-				<div class="col-xs-12 header-col">
+				<div class="col-xs-12">
 					<h1>Balance for {{username}}</h1>
 				</div>
 			</div>
@@ -21,7 +21,7 @@
 				<h2 class="jumbotron text-center">Current Balance: ${{balance}}</h2>
 				<p>{{message}}</p>
 				<div class="text-center">
-					<form method='POST' action='{% url 'SipNChipApp:addMoney' %}' class="form uniform">
+					<form method='POST' action="{% url 'SipNChipApp:addMoney' %}" class="form uniform">
 						{% csrf_token %}
 						<label for="number">Amount: </label>
 						<input type="number" name="amount">
@@ -30,9 +30,9 @@
 				</div>
 			</div>
 		        {% for message in messages %}
-				<div class="col-xs-12"> 
-				    <p>{{ message }}</p>
-				</div>
+					<div class="col-xs-12"> 
+						<p class="danger-message">{{ message }}</p>
+					</div>
 		        {% endfor %}
 
 			<div class="col-xs-12">

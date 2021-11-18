@@ -11,8 +11,10 @@
     </head>
     <body>
         <div class="container">
-            <div class="col-xs-12 header-home">
-                <h1>Your Current Drink Orders</h1>
+            <div class="row header-home">
+                <div class="col-xs-12">
+                    <h1>Your Current Drink Orders</h1>
+                </div>
             </div>
             <table class="table col-xs-12">
                 <tr>
@@ -42,7 +44,7 @@
             </table>
             <br>
             {% for message in messages %}
-                <p class="alert">{{ message }}</p>
+                <p class="danger-message">{{ message }}</p>
             {% endfor %}
             <div class="col-xs-12">
                 <a href="{% url 'SipNChipApp:home' %}">

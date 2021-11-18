@@ -1,4 +1,5 @@
 {% load static %}
+{% load bootstrap_icons %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,247 +9,192 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'SipNChipApp/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'SipNChipApp/custom.css' %}">
-
         <title>SipNChip | Home</title>
     </head>
-    <body>
+    <body class="body-background">
+        <nav class="navbar">
+            <div class="row nav-header">
+                <div class="col-xs-7">
+                    <h2 class="nav-title"><img src="{% static 'SipNChipApp/photos/flipped-logo-light.png' %}" alt="logo-dark" height="53px"/>&nbsp;Sip N Chip</h2>
+                </div>
+                <div class="col-xs-2" onclick="toggleNav()">
+                    <span class="hamburger-left-icon">{% bs_icon 'list' size='2em' color='#EBEBEB' %}</span>
+                </div>
+            </div>
+            <div class="nav-items">
+                <a href="{% url 'SipNChipApp:tournaments' %}">
+                    <div class="nav-item dashboard-item">
+                        View Tournaments {% bs_icon 'arrow-right' %}
+                    </div>
+                </a>
+                <a href="{% url 'SipNChipApp:order-drinks' %}">
+                    <div class="nav-item dashboard-item">
+                        Order Drinks {% bs_icon 'arrow-right' %}
+                    </div>
+                </a>
+                <a href="{% url 'SipNChipApp:archived-tournaments' %}">
+                    <div class="nav-item dashboard-item">
+                        Archived Tournaments {% bs_icon 'arrow-right' %}
+                    </div>
+                </a>
+                <a href="{% url 'SipNChipApp:user-tournaments' %}">
+                    <div class="nav-item dashboard-item">
+                        View Tournaments Registered For {% bs_icon 'arrow-right' %}
+                    </div>
+                </a>
+                <a href="{% url 'SipNChipApp:balance' %}">
+                    <div class="nav-item dashboard-item">
+                        Add Money to Your Account {% bs_icon 'arrow-right' %}
+                    </div>
+                </a>
+                <a href="{% url 'SipNChipApp:user-orders' %}">
+                    <div class="nav-item dashboard-item">
+                        View Your Current Drink Orders {% bs_icon 'arrow-right' %}
+                    </div>
+                </a>
+                
+                {% if userType == "sponsor" or userType == "manager" or userType == "admin" %}
+                <hr>
+                    <a href="{% url 'SipNChipApp:request-tournament' %}">
+                        <div class="nav-item dashboard-item">
+                            Request Tournament {% bs_icon 'arrow-right' %}
+                        </div>
+                    </a>
+                    <a href="{% url 'SipNChipApp:sponsor-tournament' %}">
+                        <div class="nav-item dashboard-item">
+                            Sponsor Tournament {% bs_icon 'arrow-right' %}
+                        </div>
+                    </a>
+                {% endif %}
+                {% if userType == "player" %}
+                    
+                {% endif %}
+                {% if userType == "bartender" or userType == "manager" or userType == "admin" %}
+                    <hr>
+                    <a href="{% url 'SipNChipApp:drink-orders' %}">
+                        <div class="nav-item dashboard-item">
+                            View Drink Orders {% bs_icon 'arrow-right' %}
+                        </div>
+                    </a>
+                    <a href="{% url 'SipNChipApp:drink-menu' %}">
+                        <div class="nav-item dashboard-item">
+                            Edit Drink Menu {% bs_icon 'arrow-right' %}
+                        </div>
+                    </a>
+                {% endif %}
+                {% if userType == "manager" or userType == "admin" %}
+                    <hr>
+                    <a href="{% url 'SipNChipApp:tournament-creation' %}">
+                        <div class="nav-item dashboard-item">
+                            Create Tournament {% bs_icon 'arrow-right' %}
+                        </div>
+                    </a>
+                    <a href="{% url 'SipNChipApp:manage-tournaments' %}">
+                        <div class="nav-item dashboard-item">
+                            Remove Tournament {% bs_icon 'arrow-right' %}
+                        </div>
+                    </a>
+                    <a href="{% url 'SipNChipApp:sponsor-requests' %}">
+                        <div class="nav-item dashboard-item">
+                            View Sponsor Requests {% bs_icon 'arrow-right' %}
+                        </div>
+                    </a>
+                    <a href="{% url 'SipNChipApp:userType' %}">
+                        <div class="nav-item dashboard-item">
+                            Set User Types {% bs_icon 'arrow-right' %}
+                        </div>
+                    </a>
+                {% endif %}
+                <hr>
+                <a href="{% url 'SipNChipApp:logout' %}">
+                    <div class="nav-item dashboard-item" style="margin-bottom:20px;">
+                        {% bs_icon 'box-arrow-left' %} Logout
+                    </div>
+                </a>
+            </div>
+        </nav>
         <div class="container">
             <div class="row header-home">
-                <div class="col-xs-12 header-col">
-                    <h1>{{userType|title}} Dashboard</h1>
+                <div class="col-xs-10">
+                    <div class="header-title">
+                        <h1>{{ userType|title}} Home</h1>
+                    </div>
+                </div>
+                <div class="col-xs-2" onclick="toggleNav()">
+                    <span class="hamburger-left-icon">{% bs_icon 'list' size='2em' %}</span>
                 </div>
             </div>
             <div>
+                <div class="dashboard-photo">
+                    <img src="{% static 'SipNChipApp/photos/Sip&Chip-Logo-circ-purple.png' %}" alt="logo-dark" height="200px"/>
+                </div>
                 <p>Hello, {{username}}</p>
-		{% if userType != "admin" %}
-			<p>Your account balance is ${{balance}}</p>
-		{% endif %}
-		{% if userType == "manager" or userType == "admin" %}
-			<p>The Company balance is ${{companyBalance}}</p>
-		{% endif %}
-                <p>Your user type is {{userType}}</p>
                 <br>
             </div>
             <div class="dashboard-items row">
-                {% if userType == "player" %}
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:tournaments' %}">
-                        <div class="dashboard-item">
-                            View Tournaments &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:archived-tournaments' %}">
-                        <div class="dashboard-item">
-                            Archived Tournaments &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:user-tournaments' %}">
-                        <div class="dashboard-item">
-                            View Tournaments Registered For &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:balance' %}">
-                        <div class="dashboard-item">
-                            Add Money to Your Account &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:order-drinks' %}">
-                        <div class="dashboard-item">
-                            Order Drinks &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:user-orders' %}">
-                        <div class="dashboard-item">
-                            View Your Current Drink Orders &#8594;
-                        </div>
-                    </a>
-                </div>
-                {% endif %}
-                
-                {% if userType == "sponsor" %}
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:tournaments' %}">
-                        <div class="dashboard-item">
-                            View Tournaments &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:archived-tournaments' %}">
-                        <div class="dashboard-item">
-                            Archived Tournaments &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:user-tournaments' %}">
-                        <div class="dashboard-item">
-                            View Tournaments Registered For &#8594;
-                        </div>
-                    </a>
-                </div>
-		<div class="col-xs-12">
-		<a href="{% url 'SipNChipApp:request-tournament' %}">
-		    <div class="dashboard-item">
-			Request Tournament &#8594;
-		    </div>
-		</a>
-		</div>
-		<div class="col-xs-12">
-		<a href="{% url 'SipNChipApp:sponsor-tournament' %}">
-		    <div class="dashboard-item">
-			Sponsor Tournament &#8594;
-		    </div>
-		</a>
-		</div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:balance' %}">
-                        <div class="dashboard-item">
-                            Add Money to Your Account &#8594;
-                        </div>
-                    </a>
-                </div>
-                {% endif %}
-
-                {% if userType == "bartender" %}
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:tournaments' %}">
-                        <div class="dashboard-item">
-                            View Tournaments &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:archived-tournaments' %}">
-                        <div class="dashboard-item">
-                            Archived Tournaments &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:user-tournaments' %}">
-                        <div class="dashboard-item">
-                            View Tournaments Registered For &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:drink-orders' %}">
-                        <div class="dashboard-item">
-                            View Drink Orders &#8594;
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:balance' %}">
-                        <div class="dashboard-item">
-                            Add Money to Your Account &#8594;
-                        </div>
-                    </a>
-                </div>
-
-                    <div class="col-xs-12">
-                        <a href="{% url "SipNChipApp:drink-menu" %}">
-                            <div class="dashboard-item">
-                                Edit Drink Menu &#8594;
-                            </div>
+            {% if userType == "player" %}
+                    <div class="dashboard-buttons-row col-xs-12">
+                        <a href="">
+                            <span class="btn btn-dashboard">Play!</span>
+                        </a>
+                        <a href="{% url 'SipNChipApp:order-drinks' %}">
+                            <span class="btn btn-dashboard">Drinks</span>
                         </a>
                     </div>
                 {% endif %}
-
-                {% if userType == "manager" or userType == "admin" %}
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:tournaments' %}">
-                        <div class="dashboard-item">
-                            View Tournaments &#8594;
-                        </div>
+                {% if userType == "sponsor" %}
+                <div class="dashboard-buttons-row col-xs-12">
+                    <a href="{% url 'SipNChipApp:sponsor-tournament' %}">
+                        <span class="btn btn-dashboard">Sponsor Tournament</span>
                     </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:archived-tournaments' %}">
-                        <div class="dashboard-item">
-                            Archived Tournaments &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:user-tournaments' %}">
-                        <div class="dashboard-item">
-                            View Tournaments Registered For &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:balance' %}">
-                        <div class="dashboard-item">
-                            Add Money to Your Account &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:tournament-creation' %}">
-                        <div class="dashboard-item">
-                            Create Tournament &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:manage-tournaments' %}">
-                        <div class="dashboard-item">
-                            Remove Tournament &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:sponsor-requests' %}">
-                        <div class="dashboard-item">
-                            View Sponsor Requests &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:drink-orders' %}">
-                        <div class="dashboard-item">
-                            View Drink Orders &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url "SipNChipApp:drink-menu" %}">
-                        <div class="dashboard-item">
-                            Edit Drink Menu &#8594;
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:userType' %}">
-                        <div class="dashboard-item">
-                            Set User Types &#8594;
-                        </div>
+                    <a href="{% url 'SipNChipApp:request-tournament' %}">
+                        <span class="btn btn-dashboard">Request Tournament</span>
                     </a>
                 </div>
                 {% endif %}
-
-
-                <div class="col-xs-12">
-                    <a href="{% url 'SipNChipApp:logout' %}">
-                        <div class="dashboard-item">
-                            &#8592; Logout
-                        </div>
+                {% if userType == "bartender" %}
+                <div class="dashboard-buttons-row col-xs-12">
+                    <a href="{% url 'SipNChipApp:drink-orders' %}">
+                        <span class="btn btn-dashboard">View Orders</span>
                     </a>
+                    <a href="{% url 'SipNChipApp:drink-menu' %}">
+                        <span class="btn btn-dashboard">Edit Menu</span>
+                    </a>
+                </div>
+                {% endif %}
+                {% if userType == "manager" %}
+                <div class="dashboard-buttons-row col-xs-12">
+                    <a href="{% url 'SipNChipApp:tournament-creation' %}">
+                        <span class="btn btn-dashboard">Create Tournament</span>
+                    </a>
+                    <a href="{% url 'SipNChipApp:sponsor-requests' %}">
+                        <span class="btn btn-dashboard">Sponsor Requests</span>
+                    </a>
+                </div>
+                {% endif %}
+                <div class="dashboard-balance col-xs-12">
+                    <br><br>
+                    <h3>
+                        {% if userType != "manager" and userType != "admin" %}
+                            Account
+                        {% endif %}
+                        {% if userType == "manager" or userType == "admin" %}
+                            Company
+                        {% endif %}
+                        Balance:
+                    </h3>
+                    <h1>${{balance}}</h1>
                 </div>
             </div>
         </div>
     </body>
+    <script>
+        let toggleNav = function() {
+            let NavBar = document.querySelector(".navbar");
+            let Container = document.querySelector(".container");
+
+            Container.classList.toggle("open");
+            NavBar.classList.toggle("open");
+        }
+    </script>
 </html>

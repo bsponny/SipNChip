@@ -12,11 +12,8 @@
     </head>
     <body>
         <div class="container">
-            {% for message in messages %}
-                <p class="alert-info">{{ message }}</p>
-            {% endfor %}
             <div class="row header-home">
-                <div class="col-xs-12 header-col">
+                <div class="col-xs-12">
                     <h1>Archived Tournaments</h1>
                 </div>
             </div>
@@ -43,16 +40,18 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{% url "SipNChipApp:leaderboard" tournament_id=tournament.id %}">
+                            <a href="{% url 'SipNChipApp:leaderboard' tournament_id=tournament.id %}">
                                 <button type="button" class="btn">Leaderboard</button>
                             </a>
                         </td>
                     </tr>
                 {% endfor %}
             </table>
-
+            {% for message in messages %}
+                <p class="danger-message">{{ message }}</p>
+            {% endfor %}
             <div class="col-xs-12">
-                <a href="{% url "SipNChipApp:home" %}">
+                <a href="{% url 'SipNChipApp:home' %}">
                     <div class="dashboard-item">
                         &#8592; Return Home
                     </div>

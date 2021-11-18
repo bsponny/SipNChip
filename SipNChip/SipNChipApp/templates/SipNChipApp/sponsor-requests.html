@@ -38,14 +38,14 @@
                         <td>
                             <form method='POST'>
                                 {% csrf_token %}
-                                <input type="submit" value="approve" name="status">
+                                <input type="submit" value="approve" name="status" class="btn btn-dashboard">
                                 <input type="hidden" name="id" value="{{ request.id }}">
                             </form>
                         </td>
                         <td>
                             <form method='POST'>
                                 {% csrf_token %}
-                                <input type="submit" value="deny" name="status">
+                                <input type="submit" value="deny" name="status" class="btn btn-danger">
                                 <input type="hidden" name="id" value="{{ request.id }}">
                             </form>
                         </td>
@@ -55,7 +55,7 @@
 
             <br>
             {% for message in messages %}
-                <p class="alert">{{ message }}</p>
+                <p class="danger-message">{{ message }}</p>
             {% endfor %}
 
             <div class="col-xs-12">

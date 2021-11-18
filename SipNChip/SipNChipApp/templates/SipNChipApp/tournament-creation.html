@@ -25,10 +25,14 @@
                     <label for="dayOfTournament">Day of Tournament:</label>
                     <input type="date" name="dayOfTournament">
                 </div>
-                <input type="submit" class="btn" value="Submit">
+                <input type="submit" class="btn btn-dashboard" value="Submit">
             </form>
-
-            <p class="alert">{{message}}</p>
+            <br>
+            {% for message in messages %}
+                <div class="col-xs-12"> 
+                    <p class="danger-message">{{ message }}</p>
+                </div>
+            {% endfor %}
 
             <div class="col-xs-12">
                 <a href="{% url 'SipNChipApp:home' %}">
