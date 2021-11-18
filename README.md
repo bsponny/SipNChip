@@ -34,20 +34,9 @@ Clone the project from GitHub to your local repository.
 Open a command line such as Bash, then navigate to the `SipNChip` directory.  
 `bash $ cd <your-repository>/SipNChip`  
 
-Apply all migrations to the project, then create a superuser.  
+Apply all migrations to the project 
 `bash $ python manage.py migrate`  
-`bash $ winpty python manage.py createsuperuser`  
-
-Access the superuser using the shell, and set the user type to manager.  
-`bash $ python manage.py shell`  
-`python >>> from SipNChipApp.forms import User`  
-`python >>> from SipNChipApp.models import Account`  
-`python >>> user = User.objects.get(username=<your superuser username>)`  
-`python >>> account = Account.objects.get(user=user)`  
-`python >>> account.userType = 4`  
-`python >>> account.save()`  
-`python >>> exit()`  
-
+ 
 Run the server, then launch the app from localhost:8000 in your web browser.  
 `bash $ python manage.py runserver`  
 
@@ -57,4 +46,4 @@ As development of features occurs, each team member is repsonsible for verifying
 
 ## System testing instructions (subject to change)
 
-The superuser account that you made when building the project should allow you full administrator access to the database and its contents. In addition, setting the superuser account type to manager allows for setting user types of other accounts. You can use this account and another account to verify that the website functions properly.
+The server comes pre-loaded with an administrator account with the username 'admin' and the password 'SipNChip'. This account has all permissions on the website, including setting the type of other users. This should allow you to create test accounts, set them to any user type other than administrator, and verify that all features of the website function properly.
