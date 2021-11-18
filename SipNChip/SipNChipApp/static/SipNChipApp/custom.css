@@ -111,16 +111,15 @@ td, th {
     transition-property: all;
     transition-duration: .5s;
     width: 100vw;
+    background-color: white;
+    height: 100vh;
+    overflow-y: scroll;
 }
 .navbar.open {
     transform: translateX(20%);
 }
 .container.open {
    transform: scale(0.9) translateX(-20%); 
-}
-.container {
-    background-color: white;
-    height: 100vh;
 }
 .body-background {
     background-color: #2C3E4B;
@@ -144,7 +143,15 @@ td, th {
     justify-content: space-around;
 }
 .btn-dashboard {
-    padding: 8px 35px;
+    padding: 8px 15px;
     background-color: #0DBABA;
     color: white;
+}
+nav hr {
+    margin: 5px 0;
+    border-color: #2C3E4B;
+}
+.nav-items {
+    overflow-y: scroll;
+    max-height: 90%;
 }
