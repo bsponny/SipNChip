@@ -139,7 +139,7 @@
             <div class="dashboard-items row">
             {% if userType == "player" %}
                     <div class="dashboard-buttons-row col-xs-12">
-                        <a href="">
+			<a href="{% url 'SipNChipApp:user-tournaments' %}">
                             <span class="btn btn-dashboard">Play!</span>
                         </a>
                         <a href="{% url 'SipNChipApp:order-drinks' %}">
