@@ -179,14 +179,14 @@
                 {% endif %}
                 <div class="dashboard-balance col-xs-12">
                     <br><br>
-                    <h3>
-                        {% if userType != "manager" and userType != "admin" %}
-                            Account
-                        {% endif %}
                         {% if userType == "manager" or userType == "admin" %}
-                            Company
+                    <h3>
+                            Company Balance:
+                    </h3>
+		    <h1>${{companyBalance}}</h1>
                         {% endif %}
-                        Balance:
+                    <h3>
+                        Account Balance:
                     </h3>
                     <h1>${{balance}}</h1>
                 </div>
