@@ -507,11 +507,18 @@ def drinkOrders(request):
     return render(request, 'SipNChipApp/drink-orders.html', context)
 
 def userOrders(request):
+    account = get_object_or_404(Account, user=request.user)
+    adminAccount = get_object_or_404(Account, userType=5)
+
     messages = []
 
     if request.method == 'POST':
         drinkOrder = get_object_or_404(DrinkOrder, pk=request.POST.get('id'))
         messages.append("Drink order totaling " + str(drinkOrder.totalPrice) + " was canceled")
+        account.balance += drinkOrder.totalPrice
+        account.save()
+        adminAccount.balance -= drinkOrder.totalPrice
+        adminAccount.save()
         drinkOrder.delete()
 
     drinkOrders = DrinkOrder.objects.filter(orderedBy__exact=request.user)
@@ -583,6 +590,9 @@ def endTournament(request, tournamentId):
 
 @login_required(login_url='SipNChipApp:login')
 def orderDrinks(request):
+    account = get_object_or_404(Account, user=request.user)
+    adminAccount = get_object_or_404(Account, userType=5)
+
     messages = []
 
     if request.method == 'POST':
@@ -596,6 +606,11 @@ def orderDrinks(request):
                 total += float(quantity) * float(drink.price)
         order.totalPrice = total
         order.save()
+
+        account.balance -= Decimal(total)
+        account.save()
+        adminAccount.balance -= Decimal(total)
+        adminAccount.save()
 
         messages.append("Successfuly submitted order totaling " + str(order.totalPrice))        
 
