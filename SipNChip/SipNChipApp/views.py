@@ -514,7 +514,7 @@ def userOrders(request):
 
     if request.method == 'POST':
         drinkOrder = get_object_or_404(DrinkOrder, pk=request.POST.get('id'))
-        messages.append("Drink order totaling " + str(drinkOrder.totalPrice) + " was canceled")
+        messages.append("Drink order totaling " + str(drinkOrder.totalPrice) + " was cancelled")
         account.balance += drinkOrder.totalPrice
         account.save()
         adminAccount.balance -= drinkOrder.totalPrice
@@ -609,10 +609,10 @@ def orderDrinks(request):
 
         account.balance -= Decimal(total)
         account.save()
-        adminAccount.balance -= Decimal(total)
+        adminAccount.balance += Decimal(total)
         adminAccount.save()
 
-        messages.append("Successfuly submitted order totaling " + str(order.totalPrice))        
+        messages.append("Successfully submitted order totaling " + str(order.totalPrice))
 
     drinks = Drink.objects.all()
 
