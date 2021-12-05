@@ -14,7 +14,7 @@ from decimal import Context, Decimal
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='SipNChipApp:login')
-# @allowed_user_types(allowed_types=[4])
+@allowed_user_types(allowed_types=[4, 5])
 def userType(request):
     accounts = Account.objects.order_by('user').exclude(userType=5)
     context = {
@@ -23,7 +23,7 @@ def userType(request):
     return render(request, 'SipNChipApp/userType.html', context)
 
 @login_required(login_url='SipNChipApp:login')
-# @allowed_user_types(allowed_types=[4])
+@allowed_user_types(allowed_types=[4, 5])
 def setUserType(request):
     username = request.POST.get('username')
     userType = request.POST.get('userType')
@@ -112,7 +112,7 @@ def logoutUser(request):
     return redirect('SipNChipApp:login')
 
 @login_required(login_url='SipNChipApp:login')
-# @allowed_user_types(allowed_types=[4])
+@allowed_user_types(allowed_types=[4, 5])
 def tournamentCreation(request):
     message = ""
     
@@ -140,7 +140,7 @@ def tournaments(request):
 @login_required(login_url='SipNChipApp:login')
 def archivedTournaments(request):
     userType = request.user.account.userType
-    if userType == 4:
+    if userType == 4 or userType == 5:
         archive = Tournament.objects.filter(dayOfTournament__lt=date.today())
         archive = archive.order_by('dayOfTournament')
     else:
@@ -161,7 +161,7 @@ def signup(request):
     return HttpResponseRedirect('/tournaments')
 
 @login_required(login_url='SipNChipApp:login')
-# @allowed_user_types(allowed_types=[2])
+@allowed_user_types(allowed_types=[2, 5])
 def requestTournament(request):
     account = get_object_or_404(Account, user=request.user)
     if request.method == "POST":
@@ -182,7 +182,7 @@ def requestTournament(request):
     return render(request, 'SipNChipApp/request-tournament.html', {})
 
 @login_required(login_url='SipNChipApp:login')
-# @allowed_user_types(allowed_types=[4])
+@allowed_user_types(allowed_types=[4, 5])
 def sponsorRequests(request):
     messages = []
 
@@ -225,6 +225,7 @@ def sponsorTournament(request):
     return render(request, 'SipNChipApp/sponsor-tournament.html', context)
 
 @login_required(login_url='SipNChipApp:login')
+@allowed_user_types(allowed_types=[2, 5])
 def sponsorByTournamentId(request):
     account = get_object_or_404(Account, user=request.user)
     adminAccount = get_object_or_404(Account, userType=5)
@@ -245,6 +246,7 @@ def sponsorByTournamentId(request):
     return HttpResponseRedirect('/sponsor-tournament')
 
 @login_required(login_url='SipNChipApp:login')
+@allowed_user_types(allowed_types=[2, 5])
 def unSponsorByTournamentId(request):
     account = get_object_or_404(Account, user=request.user)
     adminAccount = get_object_or_404(Account, userType=5)
@@ -259,7 +261,8 @@ def unSponsorByTournamentId(request):
     messages.success(request, f"Successfully withdrew sponsorship from tournament on {tournament.dayOfTournament}")
     return HttpResponseRedirect('/sponsor-tournament')
 
-# @allowed_user_types(allowed_types=[4])
+@login_required(login_url='SipNChipApp:login')
+@allowed_user_types(allowed_types=[4, 5])
 def manageTournaments(request):
     messages = []
 
@@ -451,6 +454,7 @@ def drinkMenu(request):
     return render(request, 'SipNChipApp/drink-menu.html', context)
 
 @login_required(login_url='SipNChipApp:login')
+@allowed_user_types(allowed_types=[3, 4, 5])
 def addDrink(request):
     if request.method == "POST":
         name = request.POST.get('name')
@@ -465,6 +469,7 @@ def addDrink(request):
     return render(request, 'SipNChipApp/add-drink.html', {})
 
 @login_required(login_url='SipNChipApp:login')
+@allowed_user_types(allowed_types=[3, 4, 5])
 def editDrink(request, drink_id):
     drink = get_object_or_404(Drink, pk=drink_id)
 
@@ -484,7 +489,7 @@ def editDrink(request, drink_id):
     return render(request, 'SipNChipApp/edit-drink.html', context)
 
 @login_required(login_url='SipNChipApp:login')
-# @allowed_user_types(allowed_types=[3, 4, 5])
+@allowed_user_types(allowed_types=[3, 4, 5])
 def drinkOrders(request):
     messages = []
 
@@ -506,6 +511,7 @@ def drinkOrders(request):
     context = {'drinkOrders': drinkOrders, 'messages': messages}
     return render(request, 'SipNChipApp/drink-orders.html', context)
 
+@login_required(login_url='SipNChipApp:login')
 def userOrders(request):
     account = get_object_or_404(Account, user=request.user)
     adminAccount = get_object_or_404(Account, userType=5)
@@ -544,6 +550,8 @@ def notifications(request):
 
     return render(request, 'SipNChipApp/notifications.html', {'notifications': notifications})
 
+@login_required(login_url='SipNChipApp:login')
+@allowed_user_types(allowed_types=[4, 5])
 def endTournament(request, tournamentId):
     adminAccount = get_object_or_404(Account, userType=5)
     tournament = get_object_or_404(Tournament, pk=tournamentId)
