@@ -334,10 +334,13 @@ def scorecard(request, tournament_id, hole):
         messages.success(request, "Score saved")
         if hole == currentHole and currentHole < 18:
             currentHole += 1
+        elif currentHole == 18 and not scorecard.finished:
+            scorecard.finished = True
+            scorecard.save()
         player.account.currentHole = currentHole
         player.save()
 
-    context = {'scorecard': scorecard, 'hole': hole, 'tournament_id': tournament_id}
+    context = {'scorecard': scorecard, 'hole': hole, 'tournament_id': tournament_id, 'finished': scorecard.finished}
 
     return render(request, 'SipNChipApp/scorecard.html', context)
 

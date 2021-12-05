@@ -50,7 +50,7 @@
         </div>
     {% endif %}
 
-    {% if hole == 18 %}
+    {% if hole == 18 or finished %}
         <div class="col-xs-12">
             <a href="{% url "SipNChipApp:summary" tournament_id=tournament_id %}">
                 <div class="dashboard-item">
