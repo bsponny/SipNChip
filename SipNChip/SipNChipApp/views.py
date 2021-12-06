@@ -412,11 +412,16 @@ def balance(request):
     username = request.user
     balance = request.user.account.balance
     triedToSponsor = request.user.account.triedToSponsor
+    triedToOrder = request.user.account.triedToOrder
     message = ""
     if balance < 500 and triedToSponsor:
         remainder = 500 - balance
         message = "You need $500 to sponsor a tournament. Please add $" + str(remainder) + " to your account."
         request.user.account.triedToSponsor = False
+        request.user.account.save()
+    elif triedToOrder:
+        message = "You do not have enough money in your account to place this order. Please add more or place a different order."
+        request.user.account.triedToOrder = False
         request.user.account.save()
     context = {
             'username': username,
@@ -615,6 +620,10 @@ def orderDrinks(request):
             if (int(quantity) > 0):
                 order.drinks[str(drink)] = quantity
                 total += float(quantity) * float(drink.price)
+        if total > account.balance:
+            account.triedToOrder = True
+            account.save()
+            return HttpResponseRedirect('/balance')
         order.totalPrice = total
         order.save()
 

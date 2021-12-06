@@ -12,6 +12,7 @@ class Account(models.Model):
     userType = models.IntegerField(default=1) #1 = Player, 2 = Sponsor, 3 = Bartender, 4 = Manager, 5 = Admin
     currentHole = models.IntegerField(default=0)
     triedToSponsor = models.BooleanField(default=False)
+    triedToOrder = models.BooleanField(default=False)
 
 
     @receiver(post_save, sender=User)
